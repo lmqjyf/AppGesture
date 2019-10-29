@@ -67,7 +67,6 @@ public class GestureView extends View {
         drawCircle(canvas);
         paint.setStyle(Paint.Style.FILL);
         //手势
-        Log.e("---:", startX + " " + startY + " " + currencyX + " " + currencyY);
         canvas.drawLine(startX, startY, currencyX, currencyY, paint);
     }
 
@@ -104,7 +103,7 @@ public class GestureView extends View {
                 break;
             }
         }
-        return super.onTouchEvent(event);
+        return true;
     }
 
     private void checkIsAddPoint() {

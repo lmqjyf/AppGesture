@@ -5,7 +5,9 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.bitcoin.juwan.appgesture.R;
@@ -19,6 +21,8 @@ import com.bitcoin.juwan.appgesture.gesture.interfaceview.IDrawView;
 import com.bitcoin.juwan.appgesture.gesture.interfaceview.ITouch;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -33,6 +37,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
     private static List<PointCoordinate> coordinateList = new ArrayList<>();
     //存储选中的点
     private static LinkedHashMap<Integer, PointCoordinate> selectMap = new LinkedHashMap<>();
+    private static List<Integer> indexList = new ArrayList<>();
 
     private static final int circleRadius = 50; //圆半径
 
@@ -137,9 +142,17 @@ public class GestureViewImpl implements IDrawView, ITouch {
         currencyX = event.getX();
         currencyY = event.getY();
 
-        int index = checkIsAddPoint();
+//        int index = checkIsAddPoint();
+//        //移动过程中有选中的点 && 该点还不在选中的集合中
+//        if(index > -1 && !selectMap.containsKey(index)) {
+//            startX = coordinateList.get(index).getX();//重置线的起始点
+//            startY = coordinateList.get(index).getY();
+//            selectMap.put(index, coordinateList.get(index)); //将该起始点放入集合中
+//        }
+
         //移动过程中有选中的点 && 该点还不在选中的集合中
-        if(index > -1 && !selectMap.containsKey(index)) {
+        getSelectIndex();
+        for(Integer index : indexList) {
             startX = coordinateList.get(index).getX();//重置线的起始点
             startY = coordinateList.get(index).getY();
             selectMap.put(index, coordinateList.get(index)); //将该起始点放入集合中
@@ -149,6 +162,45 @@ public class GestureViewImpl implements IDrawView, ITouch {
             return true;
         } else {
             return false;
+        }
+    }
+
+    private void getSelectIndex() {
+        indexList.clear();
+        PointCoordinate unSelectPoint = null; //未选中的点坐标
+        PointCoordinate currSelectPoint = null; //上一个选中的点坐标
+        for(PointCoordinate pointCoordinate : selectMap.values()) {
+            currSelectPoint = pointCoordinate;
+        }
+        for(int index = 0; index < coordinateList.size(); index ++) {
+            Log.e("-----:", selectMap.containsKey(index) + "");
+            if(!selectMap.containsKey(index)) {
+                /**
+                 * 计算点投影是否在线段上
+                 */
+                unSelectPoint = coordinateList.get(index);
+                double AB = MathUtil.getDistancePoints(currencyX, currencyX, currSelectPoint.getX(), currSelectPoint.getY());
+                double BC = MathUtil.getDistancePoints(unSelectPoint.getX(), unSelectPoint.getY(), currSelectPoint.getX(), currSelectPoint.getY());
+                double AC = MathUtil.getDistancePoints(currencyX, currencyX, unSelectPoint.getX(), unSelectPoint.getY());
+                if(AB * AB >= (BC * BC + AC * AC)) { //投影在线段上
+                    Log.e("-----:", " " + AB + " " + BC + " " + AC);
+                    double pointToTargetLineOfHeight = MathUtil.getPointToTargetLineOfHeight(BC, AC, AB);
+                    if(pointToTargetLineOfHeight <= circleRadius) {
+                        indexList.add(index);
+                    } else {
+                        //不包含
+                    }
+                } else { //投影不在线段上
+                    double distancePoints = MathUtil.getDistancePoints(currencyX, currencyY, currSelectPoint.getX(), currSelectPoint.getY());
+                    if(distancePoints <= circleRadius) {
+                        Log.e("-投影不在线段上----:", " " + distancePoints);
+                        indexList.add(index);
+                    } else {
+//                        Log.e("--投影不在线段上---:", " " + AB + " " + BC + " " + AC);
+                        //不包含
+                    }
+                }
+            }
         }
     }
 

@@ -34,7 +34,7 @@ public class MathUtil {
 
     public static double getPointToTargetLineOfHeight(double distance1, double distance2, double targetDistance) {
         double q = (distance1 + distance2 + targetDistance) /2;
-        double s = Math.sqrt(q * (q - distance1) * (q - distance2) * (targetDistance));
+        double s = Math.sqrt(q * (q - distance1) * (q - distance2) * (q - targetDistance));
         return s * 2 / targetDistance;
     }
 }

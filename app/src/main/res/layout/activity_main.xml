@@ -13,7 +13,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-    <com.bitcoin.juwan.appgesture.GestureView
+    <com.bitcoin.juwan.appgesture.gesture.GestureView
+        android:id="@+id/gesture_view"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:text="Hello World!"

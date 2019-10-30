@@ -1,4 +1,4 @@
-package com.bitcoin.juwan.appgesture;
+package com.bitcoin.juwan.appgesture.gesture;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -10,9 +10,11 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * FileName：GestureView
@@ -29,6 +31,10 @@ public class GestureView extends View {
     private static final int circleRadius = 50; //圆半径
 
     private static final int selectCircleRadius = 25; //内圆的半径
+
+    private GestureListener gestureListener; //手势监听
+
+    private int needSelectPointNumber = 4; //最小选中点的数量。默认：4个
 
     //存储九个点
     private static List<PointCoordinate> coordinateList = new ArrayList<>();
@@ -83,11 +89,11 @@ public class GestureView extends View {
             } else {
                 PointCoordinate currPoint = entry.getValue();
                 //画线
-                canvas.drawLine(pointCoordinate.x, pointCoordinate.y, currPoint.x, currPoint.y, paint);
+                canvas.drawLine(pointCoordinate.getX(), pointCoordinate.getY(), currPoint.getX(), currPoint.getY(), paint);
                 pointCoordinate = currPoint;
             }
             //画圆
-            canvas.drawCircle(pointCoordinate.x, pointCoordinate.y, selectCircleRadius, paint);
+            canvas.drawCircle(pointCoordinate.getX(), pointCoordinate.getY(), selectCircleRadius, paint);
         }
     }
 
@@ -108,8 +114,8 @@ public class GestureView extends View {
                 int index = checkIsAddPoint();
                 isValid = index > -1 ? true : false;
                 if(isValid) {
-                    startX = coordinateList.get(index).x;
-                    startY = coordinateList.get(index).y;
+                    startX = coordinateList.get(index).getX();
+                    startY = coordinateList.get(index).getY();
                     selectMap.put(index, coordinateList.get(index));
                     this.postInvalidate();
                 }
@@ -128,8 +134,8 @@ public class GestureView extends View {
                 int index = checkIsAddPoint();
                 //移动过程中有选中的点 && 该点还不在选中的集合中
                 if(index > -1 && !selectMap.containsKey(index)) {
-                    startX = coordinateList.get(index).x;//重置线的起始点
-                    startY = coordinateList.get(index).y;
+                    startX = coordinateList.get(index).getX();//重置线的起始点
+                    startY = coordinateList.get(index).getY();
                     selectMap.put(index, coordinateList.get(index)); //将该起始点放入集合中
                 }
 
@@ -143,16 +149,25 @@ public class GestureView extends View {
                 if(!isValid) { //判读触摸点是否有效
                     break;
                 }
-                currencyX = 0;
-                currencyY = 0;
-                startX = 0;
-                startY = 0;
-                selectMap.clear();
-                this.postInvalidate();
+                checkPointNumber();
                 break;
             }
         }
         return true;
+    }
+
+    private void checkPointNumber() {
+        if(selectMap.size() < needSelectPointNumber) { //选中的数量小于最低需要选中的点数
+            gestureListener.onFailed(); //回调
+        } else { //大于最低需要选中的点数
+            gestureListener.onComplete(new ArrayList<>(selectMap.keySet()));
+        }
+        currencyX = 0;
+        currencyY = 0;
+        startX = 0;
+        startY = 0;
+        selectMap.clear();
+        this.postInvalidate();
     }
 
     /**
@@ -162,8 +177,8 @@ public class GestureView extends View {
     private int checkIsAddPoint() {
         for(int index = 0; index < coordinateList.size();) {
             PointCoordinate pointCoordinate = coordinateList.get(index);
-            double distance = Math.sqrt((currencyX - pointCoordinate.x) * (currencyX - pointCoordinate.x) +
-                    (currencyY - pointCoordinate.y) * (currencyY - pointCoordinate.y));
+            double distance = Math.sqrt((currencyX - pointCoordinate.getX()) * (currencyX - pointCoordinate.getX()) +
+                    (currencyY - pointCoordinate.getY()) * (currencyY - pointCoordinate.getY()));
             if(distance <= circleRadius) {//选中
                 return index;
             } else {
@@ -178,10 +193,15 @@ public class GestureView extends View {
      * @param canvas
      */
     private void drawCircle(Canvas canvas) {
-        paint.setStyle(Paint.Style.STROKE);//设置画笔属性是空心圆
-        paint.setStrokeWidth(2); //设置划线的宽度
+        if(coordinateList.size() != 0) { //设置画笔属性
+            int color = coordinateList.get(0).getBigGraphical().getUnSelectColor();
+            Paint.Style style = coordinateList.get(0).getBigGraphical().getUnSelectStyle();
+            paint.setColor(color);
+            paint.setStyle(style);//设置画笔属性是空心圆
+            paint.setStrokeWidth(2); //设置划线的宽度
+        }
         for(PointCoordinate point : coordinateList) {
-            canvas.drawCircle(point.x, point.y, circleRadius, paint);
+            canvas.drawCircle(point.getX(), point.getY(), circleRadius, paint);
         }
     }
 
@@ -199,23 +219,22 @@ public class GestureView extends View {
 
         for(int i = 1; i <= 3; i++) {
             for(int j = 1; j <= 3; j++) {
-                PointCoordinate pointCoordinate = new PointCoordinate();
-                pointCoordinate.x = divisionTransverse * j + (j * 2 - 1) * circleRadius;
-                pointCoordinate.y = divisionVertical * i + (i * 2 -1) * circleRadius;
+                PointCoordinate pointCoordinate = new PointCoordinate(
+                        divisionTransverse * j + (j * 2 - 1) * circleRadius,
+                        divisionVertical * i + (i * 2 -1) * circleRadius);
                 coordinateList.add(pointCoordinate);
             }
         }
     }
 
     private void checkWidthHeight() {
-        if(this.viewWidth == 0) {
+        if (this.viewWidth == 0) {
             this.viewWidth = getWidth();
             this.viewHeight = getHeight();
         }
     }
 
-    class PointCoordinate {
-        float x;
-        float y;
+    public void setGestureListener(GestureListener gestureListener) {
+        this.gestureListener = gestureListener;
     }
 }

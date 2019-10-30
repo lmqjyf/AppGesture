@@ -70,7 +70,7 @@ public class DrawView implements IDrawView, ITouch {
     }
 
     @Override
-    public void onDrawBigView(Paint paint, Canvas canvas) {
+    public void onDrawInitView(Paint paint, Canvas canvas) {
         if(coordinateList.size() != 0) { //设置画笔属性
             int color = coordinateList.get(0).getBigGraphical().getUnSelectColor();
             Paint.Style style = coordinateList.get(0).getBigGraphical().getUnSelectStyle();
@@ -95,7 +95,7 @@ public class DrawView implements IDrawView, ITouch {
     }
 
     @Override
-    public void onDrawSmallView(Paint paint, Canvas canvas) {
+    public void onDrawSelectView(Paint paint, Canvas canvas) {
         PointCoordinate pointCoordinate = null;
         for(Map.Entry<Integer, PointCoordinate> entry : selectMap.entrySet()) {
             if(pointCoordinate == null) {
@@ -120,15 +120,14 @@ public class DrawView implements IDrawView, ITouch {
 
     @Override
     public void onDrawLineView(Paint paint, Canvas canvas) {
+//        paint.setColor();
         canvas.drawLine(startX, startY, currencyX, currencyY, paint);
     }
 
     float startY; //触摸开始的坐标点
     float startX ;
-
     float currencyX; //移动过程中的坐标点
     float currencyY;
-
     boolean isValid = false; //是否是有效触摸
 
     @Override

@@ -48,10 +48,10 @@ public class GestureView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         checkWidthHeight();
-        drawView.initData(viewWidth, viewHeight);
-        drawView.onDrawBigView(paint, canvas);
-        drawView.onDrawSmallView(paint, canvas);
-        drawView.onDrawLineView(paint, canvas);
+        drawView.initData(viewWidth, viewHeight); //初始化9个点数据
+        drawView.onDrawInitView(paint, canvas); //初始化View
+        drawView.onDrawSelectView(paint, canvas); //绘制选中的View
+        drawView.onDrawLineView(paint, canvas); //绘制连接线
     }
 
     @Override

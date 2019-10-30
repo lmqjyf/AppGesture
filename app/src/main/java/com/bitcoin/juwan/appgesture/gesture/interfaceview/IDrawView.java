@@ -12,9 +12,9 @@ public interface IDrawView {
 
     void  initData(int  width, int height);
 
-    void onDrawBigView(Paint paint, Canvas canvas);
+    void onDrawInitView(Paint paint, Canvas canvas);
 
-    void onDrawSmallView(Paint paint, Canvas canvas);
+    void onDrawSelectView(Paint paint, Canvas canvas);
 
     void onDrawLineView(Paint paint, Canvas canvas);
 }

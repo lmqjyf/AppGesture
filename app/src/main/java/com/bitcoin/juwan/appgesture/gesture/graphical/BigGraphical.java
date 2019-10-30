@@ -18,11 +18,15 @@ public class BigGraphical {
 
     private Paint.Style selectStyle;
 
-    public BigGraphical() {
-        unSelectColor = Color.BLUE;
-        selectColor = Color.BLUE;
-        unSelectStyle = Paint.Style.STROKE;
-        selectStyle = Paint.Style.STROKE;
+    public BigGraphical(int selectColor, int unSelectColor) {
+        this(selectColor, unSelectColor, Paint.Style.STROKE, Paint.Style.STROKE);
+    }
+
+    private BigGraphical(int selectColor, int unSelectColor, Paint.Style unSelectStyle, Paint.Style selectStyle) {
+        this.unSelectColor = selectColor;
+        this.selectColor = unSelectColor;
+        this.unSelectStyle = unSelectStyle;
+        this.selectStyle = selectStyle;
     }
 
     public int getUnSelectColor() {

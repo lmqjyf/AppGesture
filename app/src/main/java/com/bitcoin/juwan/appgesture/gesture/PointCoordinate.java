@@ -1,5 +1,7 @@
 package com.bitcoin.juwan.appgesture.gesture;
 
+import android.graphics.Color;
+
 import com.bitcoin.juwan.appgesture.gesture.graphical.BigGraphical;
 import com.bitcoin.juwan.appgesture.gesture.graphical.SmallGraphical;
 
@@ -18,7 +20,7 @@ public class PointCoordinate {
 
 
     public PointCoordinate(float x, float y) {
-        this(x, y, new BigGraphical(), new SmallGraphical());
+        this(x, y, new BigGraphical(Color.BLUE, Color.BLUE), new SmallGraphical(Color.BLUE, Color.TRANSPARENT));
     }
 
     public PointCoordinate(float x, float y, BigGraphical bigGraphical, SmallGraphical smallGraphical) {

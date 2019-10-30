@@ -18,10 +18,11 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:bigSelectGraphicalColor="@color/colorAccent"
+        app:bigGraphicalColor="@color/colorPrimary"
+        app:smallGraphicalColor="@android:color/transparent"
+        app:smallSelectGraphicalColor="@color/colorAccent"
+        app:lineColor="@color/colorAccent"/>
 
     <View
         android:layout_width="wrap_content"

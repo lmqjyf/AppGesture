@@ -11,7 +11,7 @@ import android.view.View;
 /**
  * FileName：GestureView
  * Create By：liumengqiang
- * Description：TODO
+ * Description：
  */
 public class GestureView extends View {
 
@@ -20,57 +20,57 @@ public class GestureView extends View {
     private int viewWidth; //宽高
     private int viewHeight;
 
-    private DrawView drawView;
+    private GestureViewImpl viewImpl;
 
     public GestureView(Context context) {
         super(context);
-        this.init();
+        this.init(null);
     }
 
     public GestureView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.init();
+        this.init(attrs);
     }
 
     public GestureView(Context context,  AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.init();
+        this.init(attrs);
     }
 
-    private void init() {
+    private void init(AttributeSet attrs) {
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setColor(Color.BLUE);
-        drawView = drawView.getInstance();
+        viewImpl = new GestureViewImpl(getContext(), attrs);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         checkWidthHeight();
-        drawView.initData(viewWidth, viewHeight); //初始化9个点数据
-        drawView.onDrawInitView(paint, canvas); //初始化View
-        drawView.onDrawSelectView(paint, canvas); //绘制选中的View
-        drawView.onDrawLineView(paint, canvas); //绘制连接线
+        viewImpl.initData(viewWidth, viewHeight); //初始化9个点数据
+        viewImpl.onDrawInitView(paint, canvas); //初始化View
+        viewImpl.onDrawSelectView(paint, canvas); //绘制选中的View
+        viewImpl.onDrawLineView(paint, canvas); //绘制连接线
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN : {
-                if(drawView.touchDown(event)) {
+                if(viewImpl.touchDown(event)) {
                     this.postInvalidate();
                 }
                 break;
             }
             case MotionEvent.ACTION_MOVE : {
-                if(drawView.touchMove(event)) {
+                if(viewImpl.touchMove(event)) {
                     this.postInvalidate();
                 }
                 break;
             }
             case MotionEvent.ACTION_UP : {
-                if(drawView.touchUp(event)) {
+                if(viewImpl.touchUp(event)) {
                     this.postInvalidate();
                 }
                 break;
@@ -87,6 +87,6 @@ public class GestureView extends View {
     }
 
     public void setGestureListener(GestureListener gestureListener) {
-        this.drawView.setGestureListener(gestureListener);
+        this.viewImpl.setGestureListener(gestureListener);
     }
 }

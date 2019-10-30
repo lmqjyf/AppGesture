@@ -18,11 +18,15 @@ public class SmallGraphical {
 
     private Paint.Style selectStyle;
 
-    public SmallGraphical() {
-        unSelectColor = Color.TRANSPARENT;
-        selectColor = Color.BLUE;
-        unSelectStyle = Paint.Style.FILL;
-        selectStyle = Paint.Style.FILL;
+    public SmallGraphical(int selectColor, int unSelectColor) {
+        this(selectColor, unSelectColor, Paint.Style.FILL, Paint.Style.FILL);
+    }
+
+    private SmallGraphical(int selectColor, int unSelectColor, Paint.Style unSelectStyle, Paint.Style selectStyle) {
+        this.unSelectColor = unSelectColor;
+        this.selectColor = selectColor;
+        this.unSelectStyle = unSelectStyle;
+        this.selectStyle = selectStyle;
     }
 
     public int getUnSelectColor() {

@@ -71,7 +71,6 @@ public class GestureViewImpl implements IDrawView, ITouch {
         int divisionTransverse = (viewWidth - 6 * circleRadius) / 4;
         //竖向间隔
         int divisionVertical = (viewHeight - 6 * circleRadius) / 4;
-
         for(int i = 1; i <= 3; i++) {
             for(int j = 1; j <= 3; j++) {
                 BigGraphical bigGraphical = new BigGraphical(bigGraphicalSelectColor, bigGraphicalColor);

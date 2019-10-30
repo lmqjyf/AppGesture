@@ -23,8 +23,8 @@ public class SmallGraphical {
     }
 
     private SmallGraphical(int selectColor, int unSelectColor, Paint.Style unSelectStyle, Paint.Style selectStyle) {
-        this.unSelectColor = unSelectColor;
         this.selectColor = selectColor;
+        this.unSelectColor = unSelectColor;
         this.unSelectStyle = unSelectStyle;
         this.selectStyle = selectStyle;
     }

@@ -23,8 +23,8 @@ public class BigGraphical {
     }
 
     private BigGraphical(int selectColor, int unSelectColor, Paint.Style unSelectStyle, Paint.Style selectStyle) {
-        this.unSelectColor = selectColor;
-        this.selectColor = unSelectColor;
+        this.selectColor = selectColor;
+        this.unSelectColor = unSelectColor;
         this.unSelectStyle = unSelectStyle;
         this.selectStyle = selectStyle;
     }

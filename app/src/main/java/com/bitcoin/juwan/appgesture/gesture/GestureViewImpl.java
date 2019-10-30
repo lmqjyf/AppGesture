@@ -6,19 +6,21 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.bitcoin.juwan.appgesture.R;
 import com.bitcoin.juwan.appgesture.gesture.graphical.BigGraphical;
 import com.bitcoin.juwan.appgesture.gesture.graphical.SmallGraphical;
+import com.bitcoin.juwan.appgesture.gesture.handledraw.HandleBigGraphical;
+import com.bitcoin.juwan.appgesture.gesture.handledraw.HandleLineGraphical;
+import com.bitcoin.juwan.appgesture.gesture.handledraw.HandleSmallGraphical;
+import com.bitcoin.juwan.appgesture.gesture.handledraw.IHandleDraw;
 import com.bitcoin.juwan.appgesture.gesture.interfaceview.IDrawView;
 import com.bitcoin.juwan.appgesture.gesture.interfaceview.ITouch;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * FileName：GestureViewImpl
@@ -45,6 +47,10 @@ public class GestureViewImpl implements IDrawView, ITouch {
     private int smallGraphicalColor = Color.TRANSPARENT;
     private int smallGraphicalSelectColor = Color.BLUE;
     private int lineColor = Color.BLUE;
+
+    protected IHandleDraw handleBigGraphical = new HandleBigGraphical();
+    protected IHandleDraw handleSmallGraphical = new HandleSmallGraphical();
+    protected IHandleDraw handleLineGraphical = new HandleLineGraphical();
 
     public GestureViewImpl(Context context, AttributeSet attrs){
         if(attrs == null) {
@@ -85,56 +91,20 @@ public class GestureViewImpl implements IDrawView, ITouch {
 
     @Override
     public void onDrawInitView(Paint paint, Canvas canvas) {
-        if(coordinateList.size() != 0) { //设置画笔属性
-            int color = coordinateList.get(0).getBigGraphical().getUnSelectColor();
-            Paint.Style style = coordinateList.get(0).getBigGraphical().getUnSelectStyle();
-            paint.setColor(color);
-            paint.setStyle(style);//设置画笔属性
-            paint.setStrokeWidth(2); //设置划线的宽度
-        }
-        for(PointCoordinate point : coordinateList) {
-            canvas.drawCircle(point.getX(), point.getY(), circleRadius, paint);
-        }
-
-        if(coordinateList.size() != 0) { //设置画笔属性
-            int color = coordinateList.get(0).getSmallGraphical().getUnSelectColor();
-            Paint.Style style = coordinateList.get(0).getSmallGraphical().getUnSelectStyle();
-            paint.setColor(color);
-            paint.setStyle(style);//设置画笔属性是空心圆
-            paint.setStrokeWidth(2); //设置划线的宽度
-        }
-        for(PointCoordinate point : coordinateList){
-            canvas.drawCircle(point.getX(), point.getY(), selectCircleRadius, paint);
-        }
+        handleBigGraphical.onDrawInitView(paint, canvas, coordinateList);
+        handleSmallGraphical.onDrawInitView(paint, canvas, coordinateList);
+        handleLineGraphical.onDrawInitView(paint, canvas, coordinateList);
     }
 
     @Override
     public void onDrawSelectView(Paint paint, Canvas canvas) {
-        PointCoordinate pointCoordinate = null;
-        for(Map.Entry<Integer, PointCoordinate> entry : selectMap.entrySet()) {
-            if(pointCoordinate == null) {
-                pointCoordinate = entry.getValue();
-            } else {
-                PointCoordinate currPoint = entry.getValue();
-                paint.setStyle(Paint.Style.FILL);
-                //画线
-                canvas.drawLine(pointCoordinate.getX(), pointCoordinate.getY(), currPoint.getX(), currPoint.getY(), paint);
-                pointCoordinate = currPoint;
-            }
-            //画内圆
-            paint.setColor(entry.getValue().getSmallGraphical().getSelectColor());
-            paint.setStyle(entry.getValue().getSmallGraphical().getSelectStyle());
-            canvas.drawCircle(pointCoordinate.getX(), pointCoordinate.getY(), selectCircleRadius, paint);
-            //画外圆
-            paint.setColor(entry.getValue().getBigGraphical().getSelectColor());
-            paint.setStyle(entry.getValue().getBigGraphical().getSelectStyle());
-            canvas.drawCircle(pointCoordinate.getX(), pointCoordinate.getY(), circleRadius, paint);
-        }
+        handleBigGraphical.onDrawSelectView(paint, canvas, selectMap);
+        handleSmallGraphical.onDrawSelectView(paint, canvas, selectMap);
+        handleLineGraphical.onDrawSelectView(paint, canvas, selectMap);
     }
 
     @Override
     public void onDrawLineView(Paint paint, Canvas canvas) {
-//        paint.setColor();
         canvas.drawLine(startX, startY, currencyX, currencyY, paint);
     }
 

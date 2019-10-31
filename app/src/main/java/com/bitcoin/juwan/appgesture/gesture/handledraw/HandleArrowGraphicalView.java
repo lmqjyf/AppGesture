@@ -4,19 +4,18 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import com.bitcoin.juwan.appgesture.gesture.model.ChildGraphicalView;
+import com.bitcoin.juwan.appgesture.gesture.model.PointCoordinate;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
- * FileName：HandleBigGraphical
+ * FileName：HandleArrowGraphicalView
  * Create By：liumengqiang
- * Description：TODO
+ * Description：指向箭头
  */
-public class HandleBigGraphical implements IHandleDraw{
-
-    private static final int circleRadius = 50; //圆半径
+public class HandleArrowGraphicalView implements IHandleDraw {
 
     @Override
     public void onDrawInitView(Paint paint, Canvas canvas, List<ChildGraphicalView> coordinateList) {
@@ -28,18 +27,15 @@ public class HandleBigGraphical implements IHandleDraw{
             paint.setStrokeWidth(2); //设置划线的宽度
         }
         for(ChildGraphicalView point : coordinateList) {
-            canvas.drawCircle(point.getX(), point.getY(), circleRadius, paint);
+            Collection<PointCoordinate> values = point.getPointCoordinateMap().values();
+            for(PointCoordinate arrowPoint : values) {
+                canvas.drawCircle(arrowPoint.getX(), arrowPoint.getY(), 5, paint);
+            }
         }
     }
 
     @Override
     public void onDrawSelectView(Paint paint, Canvas canvas, LinkedHashMap<Integer, ChildGraphicalView> selectMap) {
-        for(Map.Entry<Integer, ChildGraphicalView> entry : selectMap.entrySet()) {
-            ChildGraphicalView pointCoordinate = entry.getValue();
-            //画外圆
-            paint.setColor(entry.getValue().getBigGraphical().getSelectColor());
-            paint.setStyle(entry.getValue().getBigGraphical().getSelectStyle());
-            canvas.drawCircle(pointCoordinate.getX(), pointCoordinate.getY(), circleRadius, paint);
-        }
+
     }
 }

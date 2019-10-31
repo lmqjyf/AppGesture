@@ -3,9 +3,8 @@ package com.bitcoin.juwan.appgesture.gesture.handledraw;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import com.bitcoin.juwan.appgesture.gesture.PointCoordinate;
+import com.bitcoin.juwan.appgesture.gesture.model.ChildGraphicalView;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -16,12 +15,12 @@ import java.util.List;
  */
 public interface IHandleDraw {
 
-     List<PointCoordinate> coordinateList = null;
+     List<ChildGraphicalView> coordinateList = null;
 
-     LinkedHashMap<Integer, PointCoordinate> selectMap = null;
+     LinkedHashMap<Integer, ChildGraphicalView> selectMap = null;
 
-    void onDrawInitView(Paint paint, Canvas canvas, List<PointCoordinate> coordinateList);
+    void onDrawInitView(Paint paint, Canvas canvas, List<ChildGraphicalView> coordinateList);
 
-    void onDrawSelectView(Paint paint, Canvas canvas, LinkedHashMap<Integer, PointCoordinate> selectMap);
+    void onDrawSelectView(Paint paint, Canvas canvas, LinkedHashMap<Integer, ChildGraphicalView> selectMap);
 
 }

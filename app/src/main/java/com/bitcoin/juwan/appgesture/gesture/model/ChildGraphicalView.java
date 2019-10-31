@@ -1,49 +1,47 @@
-package com.bitcoin.juwan.appgesture.gesture;
+package com.bitcoin.juwan.appgesture.gesture.model;
 
 import android.graphics.Color;
 
 import com.bitcoin.juwan.appgesture.gesture.graphical.BigGraphical;
 import com.bitcoin.juwan.appgesture.gesture.graphical.SmallGraphical;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 /**
- * FileName：PointCoordinate
+ * FileName：ChildGraphicalView
  * Create By：liumengqiang
  * Description：TODO
  */
-public class PointCoordinate {
+public class ChildGraphicalView {
 
-    private float x; //坐标
-    private float y;
+//    private float x; //坐标
+//    private float y;
+
+    private PointCoordinate pointCenter;
+
+    private HashMap<Integer, PointCoordinate> arrowCoordinateMap = new HashMap<>();
 
     private BigGraphical bigGraphical;
     private SmallGraphical smallGraphical;
 
-
-    public PointCoordinate(float x, float y) {
+    public ChildGraphicalView(float x, float y) {
         this(x, y, new BigGraphical(Color.BLUE, Color.BLUE), new SmallGraphical(Color.BLUE, Color.TRANSPARENT));
     }
 
-    public PointCoordinate(float x, float y, BigGraphical bigGraphical, SmallGraphical smallGraphical) {
-        this.x = x;
-        this.y = y;
+    public ChildGraphicalView(float x, float y, BigGraphical bigGraphical, SmallGraphical smallGraphical) {
+        this.pointCenter = new PointCoordinate(x, y);
         this.bigGraphical = bigGraphical;
         this.smallGraphical = smallGraphical;
     }
 
     public float getX() {
-        return x;
-    }
-
-    public void setX(float x) {
-        this.x = x;
+        return this.pointCenter.x;
     }
 
     public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
+        return this.pointCenter.y;
     }
 
     public BigGraphical getBigGraphical() {
@@ -60,5 +58,13 @@ public class PointCoordinate {
 
     public void setSmallGraphical(SmallGraphical smallGraphical) {
         this.smallGraphical = smallGraphical;
+    }
+
+    public HashMap<Integer, PointCoordinate> getPointCoordinateMap() {
+        return arrowCoordinateMap;
+    }
+
+    public PointCoordinate getPointCenter() {
+        return pointCenter;
     }
 }

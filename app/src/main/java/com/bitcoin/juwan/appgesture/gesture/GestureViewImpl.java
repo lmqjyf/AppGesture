@@ -155,6 +155,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
         for(Integer index : indexList) {
             startX = coordinateList.get(index).getX();//重置线的起始点
             startY = coordinateList.get(index).getY();
+//            Log.e("-----index:", index + " " + startX + " " + startY);
             selectMap.put(index, coordinateList.get(index)); //将该起始点放入集合中
         }
 
@@ -167,24 +168,23 @@ public class GestureViewImpl implements IDrawView, ITouch {
 
     private void getSelectIndex() {
         indexList.clear();
-        PointCoordinate unSelectPoint = null; //未选中的点坐标
-        PointCoordinate currSelectPoint = null; //上一个选中的点坐标
+        PointCoordinate unSelectPoint = null; //未选中的点坐标 （C点）
+        PointCoordinate currSelectPoint = null; //上一个选中的点坐标 （B点）
         for(PointCoordinate pointCoordinate : selectMap.values()) {
             currSelectPoint = pointCoordinate;
         }
         for(int index = 0; index < coordinateList.size(); index ++) {
             if(!selectMap.containsKey(index)) {
-                /**
-                 * 计算点投影是否在线段上
-                 */
-                unSelectPoint = coordinateList.get(index);
-                double AB = MathUtil.getDistancePoints(currencyX, currencyX, currSelectPoint.getX(), currSelectPoint.getY());
+//                Log.e("---------:", " " + index);
+                unSelectPoint = coordinateList.get(index); // B 点
+                double AB = MathUtil.getDistancePoints(currencyX, currencyY, currSelectPoint.getX(), currSelectPoint.getY());
                 double BC = MathUtil.getDistancePoints(unSelectPoint.getX(), unSelectPoint.getY(), currSelectPoint.getX(), currSelectPoint.getY());
-                double AC = MathUtil.getDistancePoints(currencyX, currencyX, unSelectPoint.getX(), unSelectPoint.getY());
+                double AC = MathUtil.getDistancePoints(currencyX, currencyY, unSelectPoint.getX(), unSelectPoint.getY());
                 if(AB * AB >= (BC * BC + AC * AC)) { //投影在线段上
                     double pointToTargetLineOfHeight = MathUtil.getPointToTargetLineOfHeight(BC, AC, AB);
-                    Log.e("-----:", " " + pointToTargetLineOfHeight + " " + circleRadius + " ");
+//                    Log.e("-----:", " " + pointToTargetLineOfHeight + " " + circleRadius + " " + index);
                     if(pointToTargetLineOfHeight <= circleRadius) {
+//                        Log.e("----Index:::", index + " 投影在线段上");
                         indexList.add(index);
                     } else {
                         //不包含
@@ -192,6 +192,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
                 } else { //投影不在线段上
                     double distancePoints = MathUtil.getDistancePoints(currencyX, currencyY, unSelectPoint.getX(), unSelectPoint.getY());
                     if(distancePoints <= circleRadius) {
+//                        Log.e("----Index:::", index + " 投影不在线段上");
                         indexList.add(index);
                     } else {
 //                        Log.e("--投影不在线段上---:", " " + AB + " " + BC + " " + AC);

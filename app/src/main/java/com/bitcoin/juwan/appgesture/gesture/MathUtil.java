@@ -55,15 +55,14 @@ public class MathUtil {
                 if(i == j) {
                     continue;
                 } else {
-                    PointCoordinate point = getArrowPoint(pointI.getPointCenter(), pointJ.getPointCenter(), 40);
-                    Log.e("----:", point.getX() + " " + point.getY());
+                    PointCoordinate point = getArrowPoint(pointJ.getPointCenter(), pointI.getPointCenter(), 40);
+                    Log.e("----:", i + " " + point.getX() + " " + point.getY());
                     pointCoordinateList.put(j, point);
                 }
             }
         }
 
         PointCoordinate arrowPoint = getArrowPoint(new PointCoordinate(200, 100), new PointCoordinate(100, 100), 50);
-        Log.e("------:", "" + arrowPoint.getX() + " " + arrowPoint.getY() + " " + 0/1);
     }
 
     /**
@@ -79,18 +78,16 @@ public class MathUtil {
         float y2 = point2.getY();
 
         double y3 = 0;
-        if(y2 == y1) {
-            y3 = y2;
-        } else {
-            y3 = y2 - Math.sqrt(lineLength * lineLength / (1 + (x2 - x1) * (x2 - x1) / ((y2 - y1) * (y2 - y1))));
-        }
-        Log.e("-----------:", "" + y3);
-
         double x3 = 0;
         if(y2 == y1) {
-
+            y3 = y2;
+            x3 = getMinDouble(x1, x2) + lineLength;
+        } else if( x1 == x2) {
+            y3 = getMinDouble(y1, y2) + lineLength;
+            x3 = x1;
         } else {
-            x3 = x2 - x1 == 0 || y2 - y3 == 0 ? x2 : x2 - (x2 - x1) * (y2 - y3) / (y2 - y1);
+            y3 = y2 - Math.sqrt(lineLength * lineLength / (1 + (x2 - x1) * (x2 - x1) / ((y2 - y1) * (y2 - y1))));
+            x3 = x2 - (x2 - x1) * (y2 - y3) / (y2 - y1);
         }
 
         return new PointCoordinate((float) x3, (float) y3);

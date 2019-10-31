@@ -55,8 +55,7 @@ public class MathUtil {
                 if(i == j) {
                     continue;
                 } else {
-                    PointCoordinate point = getArrowPoint(pointJ.getPointCenter(), pointI.getPointCenter(), 40);
-                    Log.e("----:", i + " " + (int) point.getX() + " " + (int)point.getY());
+                    PointCoordinate point = getArrowPoint(i, j, pointJ.getPointCenter(), pointI.getPointCenter(), 40);
                     pointCoordinateList.put(j, point);
                 }
             }
@@ -71,14 +70,14 @@ public class MathUtil {
      * @param lineLength  线段长度
      * @return
      */
-    private static PointCoordinate getArrowPoint(PointCoordinate point1, PointCoordinate point2, int lineLength) {
+    private static PointCoordinate getArrowPoint(int index, int j, PointCoordinate point1, PointCoordinate point2, int lineLength) {
         float x1 = point1.getX();
         float y1 = point1.getY();
         float x2 = point2.getX();
         float y2 = point2.getY();
 
-        double y3 = 0;
         double x3 = 0;
+        double y3 = 0;
         if(y2 == y1) {
             y3 = y2;
             if(x1 > x2) {
@@ -94,10 +93,22 @@ public class MathUtil {
             }
             x3 = x1;
         } else {
-            y3 = y2 - Math.sqrt(lineLength * lineLength / (1 + (x2 - x1) * (x2 - x1) / ((y2 - y1) * (y2 - y1))));
-            x3 = x2 - (x2 - x1) * (y2 - y3) / (y2 - y1);
+            if(index < j && x2 > x1) {
+                y3 = y2 - Math.sqrt(lineLength * lineLength / (1 + (x2 - x1) * (x2 - x1) / ((y2 - y1) * (y2 - y1))));
+                x3 = x2 + (x2 - x1) * (y3 - y2) / (y2 - y1);
+            } else if(index < j && x2 < x1) {
+                y3 = y2 - Math.sqrt(lineLength * lineLength / (1 + (x2 - x1) * (x2 - x1) / ((y2 - y1) * (y2 - y1))));
+                x3 = x2 + (x1 - x2) * (y3 - y2) / (y2 - y1);
+            } else if(index > j && x2 > x1) {
+                y3 = y2 - Math.sqrt(lineLength * lineLength / (1 + (x2 - x1) * (x2 - x1) / ((y2 - y1) * (y2 - y1))));
+                x3 = x2 + (x2 - x1) * (y3 - y2) / (y2 - y1);
+            } else {
+                y3 = y2 - Math.sqrt(lineLength * lineLength / (1 + (x2 - x1) * (x2 - x1) / ((y2 - y1) * (y2 - y1))));
+                x3 = x2 + (x1 - x2) * (y3 - y2) / (y1 - y2);
+            }
         }
 
+        Log.e("----:", index+ " " + j + " " + (int)x3 + " " + (int)y3);
         return new PointCoordinate((float) x3, (float) y3);
     }
 

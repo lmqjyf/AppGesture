@@ -56,13 +56,13 @@ public class MathUtil {
                     continue;
                 } else {
                     PointCoordinate point = getArrowPoint(pointJ.getPointCenter(), pointI.getPointCenter(), 40);
-                    Log.e("----:", i + " " + point.getX() + " " + point.getY());
+                    Log.e("----:", i + " " + (int) point.getX() + " " + (int)point.getY());
                     pointCoordinateList.put(j, point);
                 }
             }
         }
 
-        PointCoordinate arrowPoint = getArrowPoint(new PointCoordinate(200, 100), new PointCoordinate(100, 100), 50);
+//        PointCoordinate arrowPoint = getArrowPoint(new PointCoordinate(200, 100), new PointCoordinate(100, 100), 50);
     }
 
     /**
@@ -81,9 +81,17 @@ public class MathUtil {
         double x3 = 0;
         if(y2 == y1) {
             y3 = y2;
-            x3 = getMinDouble(x1, x2) + lineLength;
+            if(x1 > x2) {
+                x3 = getMaxDouble(x1, x2) + lineLength;
+            } else {
+                x3 = x2 - lineLength;
+            }
         } else if( x1 == x2) {
-            y3 = getMinDouble(y1, y2) + lineLength;
+            if(y1 > y2) {
+                y3 = getMaxDouble(y1, y2) + lineLength;
+            } else {
+                y3 = y2 - lineLength;
+            }
             x3 = x1;
         } else {
             y3 = y2 - Math.sqrt(lineLength * lineLength / (1 + (x2 - x1) * (x2 - x1) / ((y2 - y1) * (y2 - y1))));
@@ -93,7 +101,7 @@ public class MathUtil {
         return new PointCoordinate((float) x3, (float) y3);
     }
 
-    private static double getMinDouble(double x1, double x2) {
-        return x1 > x2 ? x2 : x1;
+    private static double getMaxDouble(double x1, double x2) {
+        return x1 < x2 ? x2 : x1;
     }
 }

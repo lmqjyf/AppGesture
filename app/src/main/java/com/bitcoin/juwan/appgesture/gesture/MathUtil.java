@@ -80,30 +80,30 @@ public class MathUtil {
         double y3 = 0;
         if(y2 == y1) {
             y3 = y2;
-            if(x1 > x2) {
-                x3 = getMaxDouble(x1, x2) + lineLength;
+            if(index > j) {
+                x3 = getMinDouble(x1, x2) - lineLength;
             } else {
-                x3 = x2 - lineLength;
+                x3 = getMinDouble(x1, x2) + lineLength;
             }
         } else if( x1 == x2) {
-            if(y1 > y2) {
-                y3 = getMaxDouble(y1, y2) + lineLength;
+            if(index > j) {
+                y3 = getMaxDouble(y1, y2) - lineLength;
             } else {
-                y3 = y2 - lineLength;
+                y3 = getMinDouble(y1, y2) + lineLength;
             }
             x3 = x1;
         } else {
-            if(index < j && x2 > x1) {
+            if(index > j && x2 > x1) {
                 y3 = y2 - Math.sqrt(lineLength * lineLength / (1 + (x2 - x1) * (x2 - x1) / ((y2 - y1) * (y2 - y1))));
-                x3 = x2 + (x2 - x1) * (y3 - y2) / (y2 - y1);
-            } else if(index < j && x2 < x1) {
+                x3 = x2 - (x2 - x1) * (y2 - y3) / (y2 - y1);
+            } else if(index > j && x2 < x1) {
                 y3 = y2 - Math.sqrt(lineLength * lineLength / (1 + (x2 - x1) * (x2 - x1) / ((y2 - y1) * (y2 - y1))));
-                x3 = x2 + (x1 - x2) * (y3 - y2) / (y2 - y1);
-            } else if(index > j && x2 > x1) {
-                y3 = y2 - Math.sqrt(lineLength * lineLength / (1 + (x2 - x1) * (x2 - x1) / ((y2 - y1) * (y2 - y1))));
-                x3 = x2 + (x2 - x1) * (y3 - y2) / (y2 - y1);
+                x3 = x2 + (x1 - x2) * (y2 - y3) / (y2 - y1);
+            } else if(index < j && x2 > x1) {
+                y3 = y2 + Math.sqrt(lineLength * lineLength / (1 + (x2 - x1) * (x2 - x1) / ((y2 - y1) * (y2 - y1))));
+                x3 = x2 - (x2 - x1) * (y3 - y2) / (y1 - y2);
             } else {
-                y3 = y2 - Math.sqrt(lineLength * lineLength / (1 + (x2 - x1) * (x2 - x1) / ((y2 - y1) * (y2 - y1))));
+                y3 = y2 + Math.sqrt(lineLength * lineLength / (1 + (x2 - x1) * (x2 - x1) / ((y2 - y1) * (y2 - y1))));
                 x3 = x2 + (x1 - x2) * (y3 - y2) / (y1 - y2);
             }
         }
@@ -112,6 +112,9 @@ public class MathUtil {
         return new PointCoordinate((float) x3, (float) y3);
     }
 
+    private static double getMinDouble(double x1, double x2) {
+        return x1 > x2 ? x2 : x1;
+    }
     private static double getMaxDouble(double x1, double x2) {
         return x1 < x2 ? x2 : x1;
     }

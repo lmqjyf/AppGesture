@@ -18,28 +18,6 @@ public class MathUtil {
         return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
     }
 
-    /**
-     * 点的投影是否在线段上
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
-     * @param pointX
-     * @param pointY
-     * @return
-     */
-    public static boolean isOfLine(float x1, float y1, float x2, float y2, float pointX, float pointY) {
-        double AB = getDistancePoints(x1, y1, x2, y2);
-        double BC = getDistancePoints(pointX, pointY, x2, y2);
-        double AC = getDistancePoints(x1, y1, pointX, pointY);
-
-        if( AB * AB >= (BC * BC + AC * AC)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public static double getPointToTargetLineOfHeight(double distance1, double distance2, double targetDistance) {
         double q = (distance1 + distance2 + targetDistance) /2;
         double s = Math.sqrt(q * (q - distance1) * (q - distance2) * (q - targetDistance));
@@ -79,19 +57,18 @@ public class MathUtil {
 //        x1 = bX - [L * (aY - bY)] / √[(aX - bX)² + (aY – bY)²]
 //        y1 = bY + [L * (aX - bX)] / √[(aX - bX)² + (aY – bY)²]
 //        1弧度=(180/π)°角度
-        double radian = 180 / (Math.PI * 30);
+        double radian = 180 / (Math.PI * 60);
         double L = lengthLine * Math.tan(radian);
         float aX = topPoint.getX();
         float aY = topPoint.getY();
         float bX = heightPoint.getX();
         float bY = heightPoint.getY();
         double x1 = bX + L * (aY - bY) / Math.sqrt((aX - bX) * (aX - bX)+ (aY - bY) * (aY - bY));
-        double y1 = bY - L * (aX - bX) / Math.sqrt((aX - bX) * (aX - bX) + (aY - bY) + (aY - bY));
+        double y1 = bY - L * (aX - bX) / Math.sqrt((aX - bX) * (aX - bX) + (aY - bY) * (aY - bY));
         pointCoordinates[0] = new PointCoordinate((float) x1, (float) y1);
         double x2 = bX - L * (aY - bY) / Math.sqrt((aX - bX) * (aX - bX)+ (aY - bY) * (aY - bY));
-        double y2 = bY + L * (aX - bX) / Math.sqrt((aX - bX) * (aX - bX) + (aY - bY) + (aY - bY));
+        double y2 = bY + L * (aX - bX) / Math.sqrt((aX - bX) * (aX - bX) + (aY - bY) * (aY - bY));
         pointCoordinates[1] = new PointCoordinate((float) x2, (float) y2);
-//        Log.e("-------:", i + " " + j + " " + (int)topPoint.getX() + " " + (int) topPoint.getY() + " " + (int)x1 + " " + (int)y1 + " " + (int)x2 + " " + (int)y2);
         return pointCoordinates;
     }
 

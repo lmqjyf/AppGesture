@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.bitcoin.juwan.appgesture.R;
@@ -87,7 +88,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
                 SmallGraphical smallGraphical = new SmallGraphical(smallGraphicalSelectColor, smallGraphicalColor);
                 ChildGraphicalView childGraphicalView = new ChildGraphicalView(
                         divisionTransverse * j + (j * 2 - 1) * circleRadius,
-                        divisionVertical * i + (i * 2 -1) * circleRadius, bigGraphical, smallGraphical, 3 * j - 1);
+                        divisionVertical * i + (i * 2 -1) * circleRadius, bigGraphical, smallGraphical, (i - 1) * 3 +  j - 1);
                 childGraphicalList.add(childGraphicalView);
             }
         }
@@ -134,7 +135,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
         if(isValid) {
             startX = childGraphicalList.get(index).getX();
             startY = childGraphicalList.get(index).getY();
-            childGraphicalList.get(index).setIndex(index);
+//            childGraphicalList.get(index).setIndex(index);
             selectPointMap.put(index, childGraphicalList.get(index));
             return true;
         }
@@ -154,7 +155,6 @@ public class GestureViewImpl implements IDrawView, ITouch {
 //        if(index > -1 && !selectPointMap.containsKey(index)) {
 //            startX = childGraphicalList.get(index).getX();//重置线的起始点
 //            startY = childGraphicalList.get(index).getY();
-//             currSelectIndex = index;
 //            selectPointMap.put(index, childGraphicalList.get(index)); //将该起始点放入集合中
 //        }
 
@@ -163,7 +163,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
         for(Integer index : indexList) {
             startX = childGraphicalList.get(index).getX();//重置线的起始点
             startY = childGraphicalList.get(index).getY();
-            childGraphicalList.get(index).setIndex(index);
+//            childGraphicalList.get(index).setIndex(index);
             selectPointMap.put(index, childGraphicalList.get(index)); //将该起始点放入集合中
         }
 

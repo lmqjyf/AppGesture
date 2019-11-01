@@ -55,6 +55,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
     protected IHandleDraw handleLineGraphical = new HandleLineGraphical();
     protected IHandleDraw handleArrowGraphical = new HandleArrowGraphicalView();
 
+
     public GestureViewImpl(Context context, AttributeSet attrs){
         if(attrs == null) {
             return;
@@ -86,7 +87,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
                 SmallGraphical smallGraphical = new SmallGraphical(smallGraphicalSelectColor, smallGraphicalColor);
                 ChildGraphicalView childGraphicalView = new ChildGraphicalView(
                         divisionTransverse * j + (j * 2 - 1) * circleRadius,
-                        divisionVertical * i + (i * 2 -1) * circleRadius, bigGraphical, smallGraphical);
+                        divisionVertical * i + (i * 2 -1) * circleRadius, bigGraphical, smallGraphical, 3 * j - 1);
                 childGraphicalList.add(childGraphicalView);
             }
         }
@@ -110,6 +111,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
         handleBigGraphical.onDrawSelectView(paint, canvas, selectPointMap);
         handleSmallGraphical.onDrawSelectView(paint, canvas, selectPointMap);
         handleLineGraphical.onDrawSelectView(paint, canvas, selectPointMap);
+        handleArrowGraphical.onDrawSelectView(paint, canvas, selectPointMap);
     }
 
     @Override
@@ -132,6 +134,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
         if(isValid) {
             startX = childGraphicalList.get(index).getX();
             startY = childGraphicalList.get(index).getY();
+            childGraphicalList.get(index).setIndex(index);
             selectPointMap.put(index, childGraphicalList.get(index));
             return true;
         }
@@ -151,6 +154,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
 //        if(index > -1 && !selectPointMap.containsKey(index)) {
 //            startX = childGraphicalList.get(index).getX();//重置线的起始点
 //            startY = childGraphicalList.get(index).getY();
+//             currSelectIndex = index;
 //            selectPointMap.put(index, childGraphicalList.get(index)); //将该起始点放入集合中
 //        }
 
@@ -159,6 +163,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
         for(Integer index : indexList) {
             startX = childGraphicalList.get(index).getX();//重置线的起始点
             startY = childGraphicalList.get(index).getY();
+            childGraphicalList.get(index).setIndex(index);
             selectPointMap.put(index, childGraphicalList.get(index)); //将该起始点放入集合中
         }
 

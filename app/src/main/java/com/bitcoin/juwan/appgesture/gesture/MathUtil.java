@@ -2,10 +2,10 @@ package com.bitcoin.juwan.appgesture.gesture;
 
 import android.util.Log;
 
+import com.bitcoin.juwan.appgesture.gesture.model.ArrowPointCoordinate;
 import com.bitcoin.juwan.appgesture.gesture.model.ChildGraphicalView;
 import com.bitcoin.juwan.appgesture.gesture.model.PointCoordinate;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -49,19 +49,50 @@ public class MathUtil {
     public static void getArrowCoordinate(List<ChildGraphicalView> list) {
         for(int i = 0; i < list.size(); i++) {
             ChildGraphicalView pointI = list.get(i);
-            HashMap<Integer, PointCoordinate> pointCoordinateList = pointI.getPointCoordinateMap();
+            List<ArrowPointCoordinate> pointCoordinateList = pointI.getPointCoordinateList();
             for(int j = 0; j < list.size(); j ++) {
                 ChildGraphicalView pointJ = list.get(j);
                 if(i == j) {
                     continue;
                 } else {
-                    PointCoordinate point = getArrowPoint(i, j, pointJ.getPointCenter(), pointI.getPointCenter(), 40);
-                    pointCoordinateList.put(j, point);
+                    ArrowPointCoordinate arrowPointCoordinate = new ArrowPointCoordinate();
+                    arrowPointCoordinate.setNextLinkedIndex(j);
+                    //顶点
+                    PointCoordinate point3 = getArrowPoint(i, j, pointJ.getPointCenter(), pointI.getPointCenter(), 40);
+                    arrowPointCoordinate.setPoint3(point3);
+                    //高坐标点
+                    PointCoordinate heightPoint = getArrowPoint(i, j, pointJ.getPointCenter(), pointI.getPointCenter(), 30);
+                    //todo 获取剩余两个坐标点
+                    PointCoordinate[] pointCoordinate = getBottomCoordinate(i, j, point3, heightPoint, 10);
+                    arrowPointCoordinate.setPointCoordinate(pointCoordinate);
+                    //
+                    pointCoordinateList.add(arrowPointCoordinate);
                 }
             }
         }
+    }
 
-//        PointCoordinate arrowPoint = getArrowPoint(new PointCoordinate(200, 100), new PointCoordinate(100, 100), 50);
+    private static PointCoordinate[] getBottomCoordinate(int i, int j, PointCoordinate  topPoint, PointCoordinate heightPoint, int lengthLine) {
+        PointCoordinate[] pointCoordinates = new PointCoordinate[2];
+//        x1 = bX + [L * (aY - bY)] / √[(aX - bX)² + (aY – bY)²]
+//        y1 = bY - [L * (aX - bX)] / √[(aX - bX)² + (aY – bY)²]
+//        x1 = bX - [L * (aY - bY)] / √[(aX - bX)² + (aY – bY)²]
+//        y1 = bY + [L * (aX - bX)] / √[(aX - bX)² + (aY – bY)²]
+//        1弧度=(180/π)°角度
+        double radian = 180 / (Math.PI * 30);
+        double L = lengthLine * Math.tan(radian);
+        float aX = topPoint.getX();
+        float aY = topPoint.getY();
+        float bX = heightPoint.getX();
+        float bY = heightPoint.getY();
+        double x1 = bX + L * (aY - bY) / Math.sqrt((aX - bX) * (aX - bX)+ (aY - bY) * (aY - bY));
+        double y1 = bY - L * (aX - bX) / Math.sqrt((aX - bX) * (aX - bX) + (aY - bY) + (aY - bY));
+        pointCoordinates[0] = new PointCoordinate((float) x1, (float) y1);
+        double x2 = bX - L * (aY - bY) / Math.sqrt((aX - bX) * (aX - bX)+ (aY - bY) * (aY - bY));
+        double y2 = bY + L * (aX - bX) / Math.sqrt((aX - bX) * (aX - bX) + (aY - bY) + (aY - bY));
+        pointCoordinates[1] = new PointCoordinate((float) x2, (float) y2);
+//        Log.e("-------:", i + " " + j + " " + (int)topPoint.getX() + " " + (int) topPoint.getY() + " " + (int)x1 + " " + (int)y1 + " " + (int)x2 + " " + (int)y2);
+        return pointCoordinates;
     }
 
     /**
@@ -107,8 +138,6 @@ public class MathUtil {
                 x3 = x2 + (x1 - x2) * (y3 - y2) / (y1 - y2);
             }
         }
-
-        Log.e("----:", index+ " " + j + " " + (int)x3 + " " + (int)y3);
         return new PointCoordinate((float) x3, (float) y3);
     }
 

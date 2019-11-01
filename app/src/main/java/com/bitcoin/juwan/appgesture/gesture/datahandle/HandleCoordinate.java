@@ -1,12 +1,9 @@
 package com.bitcoin.juwan.appgesture.gesture.datahandle;
 
-import android.content.res.TypedArray;
-import android.graphics.Color;
-
-import com.bitcoin.juwan.appgesture.R;
 import com.bitcoin.juwan.appgesture.gesture.graphical.BigGraphical;
 import com.bitcoin.juwan.appgesture.gesture.graphical.SmallGraphical;
 import com.bitcoin.juwan.appgesture.gesture.model.ArrowPointCoordinate;
+import com.bitcoin.juwan.appgesture.gesture.model.AttrsModel;
 import com.bitcoin.juwan.appgesture.gesture.model.ChildGraphicalView;
 import com.bitcoin.juwan.appgesture.gesture.model.PointCoordinate;
 
@@ -20,25 +17,12 @@ import java.util.List;
  */
 public class HandleCoordinate {
 
-
-//    private int viewWidth;
-//
-//    private int viewHeight;
-
-    private int bigGraphicalColor = Color.BLUE;
-    private int bigGraphicalSelectColor = Color.BLUE;
-    private int smallGraphicalColor = Color.TRANSPARENT;
-    private int smallGraphicalSelectColor = Color.BLUE;
-    private int lineColor = Color.BLUE;
+    private AttrsModel model;
 
     public HandleCoordinate() {}
 
-    public HandleCoordinate(TypedArray ta) {
-        bigGraphicalColor = ta.getColor(R.styleable.GestureView_bigGraphicalColor, Color.BLUE);
-        bigGraphicalSelectColor = ta.getColor(R.styleable.GestureView_bigSelectGraphicalColor, Color.BLUE);
-        smallGraphicalColor = ta.getColor(R.styleable.GestureView_smallGraphicalColor, Color.TRANSPARENT);
-        smallGraphicalSelectColor = ta.getColor(R.styleable.GestureView_smallSelectGraphicalColor, Color.BLUE);
-        lineColor = ta.getColor(R.styleable.GestureView_lineColor, Color.BLUE);
+    public HandleCoordinate(AttrsModel model) {
+        this.model = model;
     }
 
     public static double getDistancePoints(float x1, float y1, float x2, float y2) {
@@ -58,11 +42,9 @@ public class HandleCoordinate {
         int divisionVertical = (viewHeight - 6 * graphicalRadius) / 4;
         for(int i = 1; i <= 3; i++) {
             for(int j = 1; j <= 3; j++) {
-                BigGraphical bigGraphical = new BigGraphical(bigGraphicalSelectColor, bigGraphicalColor);
-                SmallGraphical smallGraphical = new SmallGraphical(smallGraphicalSelectColor, smallGraphicalColor);
                 ChildGraphicalView childGraphicalView = new ChildGraphicalView(
                         divisionTransverse * j + (j * 2 - 1) * graphicalRadius,
-                        divisionVertical * i + (i * 2 -1) * graphicalRadius, bigGraphical, smallGraphical, (i - 1) * 3 +  j - 1);
+                        divisionVertical * i + (i * 2 -1) * graphicalRadius, (i - 1) * 3 +  j - 1);
                 childGraphicalList.add(childGraphicalView);
             }
         }

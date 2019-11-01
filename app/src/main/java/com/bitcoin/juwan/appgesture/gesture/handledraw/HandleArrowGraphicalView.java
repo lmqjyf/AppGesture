@@ -5,8 +5,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 
+import com.bitcoin.juwan.appgesture.gesture.interfaceview.IGraphicalView;
 import com.bitcoin.juwan.appgesture.gesture.interfaceview.IHandleDraw;
 import com.bitcoin.juwan.appgesture.gesture.model.ArrowPointCoordinate;
+import com.bitcoin.juwan.appgesture.gesture.model.AttrsModel;
 import com.bitcoin.juwan.appgesture.gesture.model.ChildGraphicalView;
 
 import java.util.ArrayList;
@@ -19,10 +21,15 @@ import java.util.List;
  * Create By：liumengqiang
  * Description：指向箭头
  */
-public class HandleArrowGraphicalView implements IHandleDraw {
+public class HandleArrowGraphicalView implements IGraphicalView {
 
     @Override
-    public void onDrawInitView(Paint paint, Canvas canvas, List<ChildGraphicalView> coordinateList) {
+    public int getGraphicalViewRadius() {
+        return 0;
+    }
+
+    @Override
+    public void onDrawInitView(Paint paint, Canvas canvas, List<ChildGraphicalView> coordinateList, AttrsModel attrsModel) {
 //        if (coordinateList.size() != 0) { //设置画笔属性
 //            int color = coordinateList.get(0).getBigGraphical().getUnSelectColor();
 //            Paint.Style style = coordinateList.get(0).getBigGraphical().getUnSelectStyle();
@@ -41,7 +48,7 @@ public class HandleArrowGraphicalView implements IHandleDraw {
     private List<ChildGraphicalView> replaceArray = new ArrayList();
 
     @Override
-    public void onDrawSelectView(Paint paint, Canvas canvas, LinkedHashMap<Integer, ChildGraphicalView> selectMap) {
+    public void onDrawSelectView(Paint paint, Canvas canvas, LinkedHashMap<Integer, ChildGraphicalView> selectMap, AttrsModel attrsModel) {
         Collection<ChildGraphicalView> values = selectMap.values();
         replaceArray.clear();
         replaceArray.addAll(values);

@@ -10,7 +10,6 @@ import android.view.View;
 
 import com.bitcoin.juwan.appgesture.gesture.datahandle.GestureViewImpl;
 import com.bitcoin.juwan.appgesture.gesture.interfaceview.IGraphicalView;
-import com.bitcoin.juwan.appgesture.gesture.interfaceview.IHandleDraw;
 import com.bitcoin.juwan.appgesture.gesture.listener.GestureListener;
 
 /**
@@ -109,7 +108,7 @@ public class GestureView extends View {
         this.postInvalidate();
     }
 
-    public void setHandleLineGraphical(IHandleDraw iHandleDraw) {
+    public void setHandleLineGraphical(IGraphicalView iHandleDraw) {
         viewImpl.handleLineGraphical = iHandleDraw;
         this.postInvalidate();
     }

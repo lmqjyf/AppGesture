@@ -22,7 +22,10 @@
         app:bigGraphicalColor="@color/colorPrimary"
         app:smallGraphicalColor="@android:color/transparent"
         app:smallSelectGraphicalColor="@color/colorAccent"
-        app:lineColor="@color/colorAccent"/>
+        app:lineColor="@color/colorAccent"
+        app:arrowColor="@color/colorAccent"
+        app:arrowIsNeed="true"
+        app:isSkipMiddlePoint="false"/>
 
     <View
         android:layout_width="wrap_content"

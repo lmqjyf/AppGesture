@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import com.bitcoin.juwan.appgesture.gesture.interfaceview.IGraphicalView;
+import com.bitcoin.juwan.appgesture.gesture.model.AttrsModel;
 import com.bitcoin.juwan.appgesture.gesture.model.ChildGraphicalView;
 
 import java.util.LinkedHashMap;
@@ -25,10 +26,10 @@ public class HandleBigGraphical implements IGraphicalView {
     }
 
     @Override
-    public void onDrawInitView(Paint paint, Canvas canvas, List<ChildGraphicalView> coordinateList) {
+    public void onDrawInitView(Paint paint, Canvas canvas, List<ChildGraphicalView> coordinateList, AttrsModel attrsModel) {
         if(coordinateList.size() != 0) { //设置画笔属性
-            int color = coordinateList.get(0).getBigGraphical().getUnSelectColor();
-            Paint.Style style = coordinateList.get(0).getBigGraphical().getUnSelectStyle();
+            int color = attrsModel.getBigGraphicalColor();
+            Paint.Style style = Paint.Style.STROKE;
             paint.setColor(color);
             paint.setStyle(style);//设置画笔属性
             paint.setStrokeWidth(2); //设置划线的宽度
@@ -39,12 +40,15 @@ public class HandleBigGraphical implements IGraphicalView {
     }
 
     @Override
-    public void onDrawSelectView(Paint paint, Canvas canvas, LinkedHashMap<Integer, ChildGraphicalView> selectMap) {
+    public void onDrawSelectView(Paint paint, Canvas canvas, LinkedHashMap<Integer, ChildGraphicalView> selectMap, AttrsModel attrsModel) {
+        boolean isNeedSet = true;
         for(Map.Entry<Integer, ChildGraphicalView> entry : selectMap.entrySet()) {
             ChildGraphicalView pointCoordinate = entry.getValue();
-            //画外圆
-            paint.setColor(entry.getValue().getBigGraphical().getSelectColor());
-            paint.setStyle(entry.getValue().getBigGraphical().getSelectStyle());
+            if(isNeedSet) {
+                paint.setColor(attrsModel.getBigGraphicalSelectColor());
+                paint.setStyle(Paint.Style.STROKE);
+                isNeedSet = false;
+            }
             canvas.drawCircle(pointCoordinate.getX(), pointCoordinate.getY(), circleRadius, paint);
         }
     }

@@ -3,6 +3,7 @@ package com.bitcoin.juwan.appgesture.gesture.handledraw;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import com.bitcoin.juwan.appgesture.gesture.interfaceview.IHandleDraw;
 import com.bitcoin.juwan.appgesture.gesture.model.ChildGraphicalView;
 
 import java.util.LinkedHashMap;

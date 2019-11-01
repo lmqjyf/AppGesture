@@ -1,4 +1,4 @@
-package com.bitcoin.juwan.appgesture.gesture;
+package com.bitcoin.juwan.appgesture.gesture.listener;
 
 import java.util.List;
 

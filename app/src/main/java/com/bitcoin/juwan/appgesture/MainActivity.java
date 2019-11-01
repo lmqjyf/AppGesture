@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.bitcoin.juwan.appgesture.gesture.GestureListener;
+import com.bitcoin.juwan.appgesture.gesture.listener.GestureListener;
 import com.bitcoin.juwan.appgesture.gesture.GestureView;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.bitcoin.juwan.appgesture.gesture.handledraw;
+package com.bitcoin.juwan.appgesture.gesture.interfaceview;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -9,18 +9,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
- * FileName：IHandleDraw
+ * FileName：IGraphicalView
  * Create By：liumengqiang
  * Description：TODO
  */
-public interface IHandleDraw {
+public interface IGraphicalView {
 
-     List<ChildGraphicalView> coordinateList = null;
-
-     LinkedHashMap<Integer, ChildGraphicalView> selectMap = null;
+    //设置图形半径
+    int getGraphicalViewRadius();
 
     void onDrawInitView(Paint paint, Canvas canvas, List<ChildGraphicalView> coordinateList);
 
     void onDrawSelectView(Paint paint, Canvas canvas, LinkedHashMap<Integer, ChildGraphicalView> selectMap);
-
 }

@@ -8,7 +8,10 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.bitcoin.juwan.appgesture.gesture.handledraw.IHandleDraw;
+import com.bitcoin.juwan.appgesture.gesture.datahandle.GestureViewImpl;
+import com.bitcoin.juwan.appgesture.gesture.interfaceview.IGraphicalView;
+import com.bitcoin.juwan.appgesture.gesture.interfaceview.IHandleDraw;
+import com.bitcoin.juwan.appgesture.gesture.listener.GestureListener;
 
 /**
  * FileName：GestureView
@@ -96,12 +99,12 @@ public class GestureView extends View {
      * 自定义绘制View
      * @param iHandleDraw
      */
-    public void setHandleBigGraphical(IHandleDraw iHandleDraw) {
+    public void setHandleBigGraphical(IGraphicalView iHandleDraw) {
         viewImpl.handleBigGraphical = iHandleDraw;
         this.postInvalidate();
     }
 
-    public void setHandleSmallGraphical(IHandleDraw iHandleDraw) {
+    public void setHandleSmallGraphical(IGraphicalView iHandleDraw) {
         viewImpl.handleSmallGraphical= iHandleDraw;
         this.postInvalidate();
     }

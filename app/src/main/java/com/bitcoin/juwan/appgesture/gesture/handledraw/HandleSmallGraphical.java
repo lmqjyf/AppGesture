@@ -3,6 +3,7 @@ package com.bitcoin.juwan.appgesture.gesture.handledraw;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import com.bitcoin.juwan.appgesture.gesture.interfaceview.IGraphicalView;
 import com.bitcoin.juwan.appgesture.gesture.model.ChildGraphicalView;
 
 import java.util.LinkedHashMap;
@@ -14,9 +15,14 @@ import java.util.Map;
  * Create By：liumengqiang
  * Description：TODO
  */
-public class HandleSmallGraphical implements IHandleDraw {
+public class HandleSmallGraphical implements IGraphicalView {
 
     private static final int selectCircleRadius = 15; //内圆的半径
+
+    @Override
+    public int getGraphicalViewRadius() {
+        return selectCircleRadius;
+    }
 
     @Override
     public void onDrawInitView(Paint paint, Canvas canvas, List<ChildGraphicalView> coordinateList) {

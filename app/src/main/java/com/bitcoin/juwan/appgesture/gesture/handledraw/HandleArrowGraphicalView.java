@@ -4,8 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.util.Log;
 
+import com.bitcoin.juwan.appgesture.gesture.interfaceview.IHandleDraw;
 import com.bitcoin.juwan.appgesture.gesture.model.ArrowPointCoordinate;
 import com.bitcoin.juwan.appgesture.gesture.model.ChildGraphicalView;
 
@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * FileName：HandleArrowGraphicalView

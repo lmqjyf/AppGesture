@@ -81,7 +81,7 @@ public class MathUtil {
         if(y2 == y1) {
             y3 = y2;
             if(index > j) {
-                x3 = getMinDouble(x1, x2) - lineLength;
+                x3 = getMaxDouble(x1, x2) - lineLength;
             } else {
                 x3 = getMinDouble(x1, x2) + lineLength;
             }

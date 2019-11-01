@@ -110,12 +110,12 @@ public class GestureViewImpl implements IDrawView, ITouch {
     public boolean touchDown(MotionEvent event) {
         currencyX = event.getX();
         currencyY = event.getY();
-        int index = handleCoordinate.checkIsAddPoint(currencyX, currencyY, graphicalRadius, childGraphicalList);
-        isValid = index > -1 ? true : false;
+        handleCoordinate.checkChildGraphicalPointIsContains(indexList, currencyX, currencyY, graphicalRadius, selectPointMap, childGraphicalList);
+        isValid = indexList.size() != 0 && indexList.get(0) > -1 ? true : false;
         if (isValid) {
-            startX = childGraphicalList.get(index).getX();
-            startY = childGraphicalList.get(index).getY();
-            selectPointMap.put(index, childGraphicalList.get(index));
+            startX = childGraphicalList.get(indexList.get(0)).getX();
+            startY = childGraphicalList.get(indexList.get(0)).getY();
+            selectPointMap.put(indexList.get(0), childGraphicalList.get(indexList.get(0)));
             return true;
         }
         return false;
@@ -128,23 +128,12 @@ public class GestureViewImpl implements IDrawView, ITouch {
         }
         currencyX = event.getX();
         currencyY = event.getY();
-
-        if (attrsModel.isSkipMiddlePoint()) {
-            int index = handleCoordinate.checkIsAddPoint(currencyX, currencyY, graphicalRadius, childGraphicalList);
-            //移动过程中有选中的点 && 该点还不在选中的集合中
-            if (index > -1 && !selectPointMap.containsKey(index)) {
-                startX = childGraphicalList.get(index).getX();//重置线的起始点
-                startY = childGraphicalList.get(index).getY();
-                selectPointMap.put(index, childGraphicalList.get(index)); //将该起始点放入集合中
-            }
-        } else {
-            handleCoordinate.getSelectIndex(indexList, selectPointMap, childGraphicalList, currencyX, currencyY, graphicalRadius);
-            for (Integer index : indexList) {
-                startX = childGraphicalList.get(index).getX();//重置线的起始点
-                startY = childGraphicalList.get(index).getY();
-            }
+        //
+        handleCoordinate.getSelectIndex(indexList, selectPointMap, childGraphicalList, currencyX, currencyY, graphicalRadius, attrsModel);
+        for (Integer index : indexList) {
+            startX = childGraphicalList.get(index).getX();//重置线的起始点
+            startY = childGraphicalList.get(index).getY();
         }
-
 
         if (selectPointMap.size() != 0) {
             return true;

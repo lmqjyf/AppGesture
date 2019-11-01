@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 
 import com.bitcoin.juwan.appgesture.gesture.interfaceview.IGraphicalView;
-import com.bitcoin.juwan.appgesture.gesture.interfaceview.IHandleDraw;
 import com.bitcoin.juwan.appgesture.gesture.model.ArrowPointCoordinate;
 import com.bitcoin.juwan.appgesture.gesture.model.AttrsModel;
 import com.bitcoin.juwan.appgesture.gesture.model.ChildGraphicalView;

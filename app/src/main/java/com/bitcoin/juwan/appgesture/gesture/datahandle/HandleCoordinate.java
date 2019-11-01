@@ -1,7 +1,5 @@
 package com.bitcoin.juwan.appgesture.gesture.datahandle;
 
-import com.bitcoin.juwan.appgesture.gesture.graphical.BigGraphical;
-import com.bitcoin.juwan.appgesture.gesture.graphical.SmallGraphical;
 import com.bitcoin.juwan.appgesture.gesture.model.ArrowPointCoordinate;
 import com.bitcoin.juwan.appgesture.gesture.model.AttrsModel;
 import com.bitcoin.juwan.appgesture.gesture.model.ChildGraphicalView;
@@ -63,10 +61,11 @@ public class HandleCoordinate {
                     arrowPointCoordinate.setNextLinkedIndex(j);
                     //顶点
                     int pointLength = (outRadius - 12 - inRadius) / 2 + 12 + inRadius;
-                    PointCoordinate point3 = getArrowPoint(i, j, pointJ.getPointCenter(), pointI.getPointCenter(), pointLength);
+                    //获取小箭头第一个坐标
+                    PointCoordinate point3 = getArrowPointCoordinate(i, j, pointJ.getPointCenter(), pointI.getPointCenter(), pointLength);
                     arrowPointCoordinate.setPoint3(point3);
                     //高坐标点
-                    PointCoordinate heightPoint = getArrowPoint(i, j, pointJ.getPointCenter(), pointI.getPointCenter(), pointLength - 12);
+                    PointCoordinate heightPoint = getArrowPointCoordinate(i, j, pointJ.getPointCenter(), pointI.getPointCenter(), pointLength - 12);
                     //获取剩余两个坐标点
                     PointCoordinate[] pointCoordinate = getBottomCoordinate(point3, heightPoint, 12);
                     arrowPointCoordinate.setPointCoordinate(pointCoordinate);
@@ -95,12 +94,13 @@ public class HandleCoordinate {
     }
 
     /**
+     * 获取坐标
      * @param point1
      * @param point2
      * @param lineLength  线段长度
      * @return
      */
-    private static PointCoordinate getArrowPoint(int index, int j, PointCoordinate point1, PointCoordinate point2, int lineLength) {
+    private static PointCoordinate getArrowPointCoordinate(int index, int j, PointCoordinate point1, PointCoordinate point2, int lineLength) {
         float x1 = point1.getX();
         float y1 = point1.getY();
         float x2 = point2.getX();
@@ -147,9 +147,26 @@ public class HandleCoordinate {
         return x1 < x2 ? x2 : x1;
     }
 
+
     public void getSelectIndex(List<Integer> indexList, LinkedHashMap<Integer, ChildGraphicalView> selectPointMap, List<ChildGraphicalView> childGraphicalList,
-                               float currencyX, float currencyY, int graphicalRadius) {
+                               float currencyX, float currencyY, int graphicalRadius, AttrsModel attrsModel) {
         indexList.clear();
+        if(attrsModel.isSkipMiddlePoint()) {
+            checkChildGraphicalPointIsContains(indexList,currencyX, currencyY, graphicalRadius, selectPointMap, childGraphicalList);
+        } else {
+            getSelectIndex(indexList, selectPointMap, childGraphicalList, currencyX, currencyY, graphicalRadius);
+        }
+    }
+    /**
+     * 获取选中点的集合
+     * @param selectPointMap
+     * @param childGraphicalList
+     * @param currencyX
+     * @param currencyY
+     * @param graphicalRadius
+     */
+    public void getSelectIndex(List<Integer> indexList,LinkedHashMap<Integer, ChildGraphicalView> selectPointMap, List<ChildGraphicalView> childGraphicalList,
+                               float currencyX, float currencyY, int graphicalRadius) {
         ChildGraphicalView unSelectPoint = null; //未选中的点坐标 （C点）
         ChildGraphicalView currSelectPoint = null; //上一个选中的点坐标 （B点）
         for(ChildGraphicalView childGraphicalView : selectPointMap.values()) {
@@ -186,17 +203,20 @@ public class HandleCoordinate {
      * 判断该触摸点是否在九个触摸圆内
      * @return
      */
-    public int checkIsAddPoint(float currencyX, float currencyY, int graphicalRadius, List<ChildGraphicalView> childGraphicalList) {
+    public void checkChildGraphicalPointIsContains(List<Integer> indexList, float currencyX, float currencyY, int graphicalRadius, LinkedHashMap<Integer, ChildGraphicalView> selectPointMap, List<ChildGraphicalView> childGraphicalList) {
+        indexList.clear();
         for(int index = 0; index < childGraphicalList.size();) {
             ChildGraphicalView childGraphicalView = childGraphicalList.get(index);
             double distance = Math.sqrt((currencyX - childGraphicalView.getX()) * (currencyX - childGraphicalView.getX()) +
                     (currencyY - childGraphicalView.getY()) * (currencyY - childGraphicalView.getY()));
-            if(distance <= graphicalRadius) {//选中
-                return index;
+            if(distance <= graphicalRadius &&  !selectPointMap.containsKey(index)) {//选中
+                selectPointMap.put(index, childGraphicalList.get(index)); //将该起始点放入集合中
+                indexList.add(index);
+                return;
             } else {
                 index ++;
             }
         }
-        return -1;
     }
+
 }

@@ -45,6 +45,7 @@ public class SetGestureHandleData implements IHandleData{
             } else {
                 gestureViewImpl.gestureResultType = GestureViewType.TYPE_COMPLETE;
                 if(setGestureListener != null) {
+                    //返回选中的值
                     setGestureListener.onComplete(new ArrayList<>(gestureViewImpl.selectPointMap.keySet()));
                 }
             }

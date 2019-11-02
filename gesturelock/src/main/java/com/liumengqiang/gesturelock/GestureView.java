@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.liumengqiang.gesturelock.datahandle.GestureViewImpl;
 import com.liumengqiang.gesturelock.datahandle.HandleCoordinate;
+import com.liumengqiang.gesturelock.datahandle.gesturetype.IHandleData;
 import com.liumengqiang.gesturelock.interfaceview.IGraphicalView;
 import com.liumengqiang.gesturelock.listener.GestureListener;
 import com.liumengqiang.gesturelock.model.AttrsModel;
@@ -97,6 +98,10 @@ public class GestureView extends View {
 
     public void setGestureListener(GestureListener gestureListener) {
         this.viewImpl.setGestureListener(gestureListener);
+    }
+
+    public void setiHandleData(IHandleData iHandleData) {
+        viewImpl.setiHandleData(iHandleData);
     }
 
     /**

@@ -1,15 +1,12 @@
 package com.bitcoin.juwan.appgesture;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
 
-
-import com.liumengqiang.gesturelock.GestureView;
-import com.liumengqiang.gesturelock.listener.GestureListener;
-
-import java.util.List;
+import com.bitcoin.juwan.appgesture.test.CheckGestureActivity;
+import com.bitcoin.juwan.appgesture.test.SetGestureActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,32 +15,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        GestureView gestureView = findViewById(R.id.gesture_view);
-        gestureView.setGestureValue("1234");
-        gestureView.setGestureListener(new GestureListener() {
+        findViewById(R.id.check_value_button).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void passwordDisaccord() {
-                Toast.makeText(MainActivity.this, "两次输入密码不一致", Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, CheckGestureActivity.class));
             }
+        });
 
+        findViewById(R.id.set_value_button).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onStart() {
-                Log.e("----:" , "初始化完成");
-            }
-
-            @Override
-            public void onPointNumberChange(int selectIndex) {
-                Log.e("-----:", "点被选中");
-            }
-
-            @Override
-            public void onComplete(List<Integer> list) {
-                Toast.makeText(MainActivity.this, "选中", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailed() {
-                Toast.makeText(MainActivity.this, "个数小于四个", Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, SetGestureActivity.class));
             }
         });
     }

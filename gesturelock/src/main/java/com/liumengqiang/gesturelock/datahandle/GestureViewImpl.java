@@ -193,7 +193,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
                 gestureResultType = GestureViewType.TYPE_RESET;
                 gestureView.postInvalidate();
             }
-        }, 2000);
+        }, 1000);
 
     }
 
@@ -206,5 +206,9 @@ public class GestureViewImpl implements IDrawView, ITouch {
 
     public void setGestureValue(String gestureValue) {
         iHandleData.setGestureValue(gestureValue);
+    }
+
+    public void setiHandleData(IHandleData iHandleData) {
+        this.iHandleData = iHandleData;
     }
 }

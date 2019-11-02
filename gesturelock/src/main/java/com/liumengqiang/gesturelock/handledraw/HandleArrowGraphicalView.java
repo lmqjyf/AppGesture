@@ -1,15 +1,14 @@
-package com.liumengqiang.gesturelock.gesture.handledraw;
+package com.liumengqiang.gesturelock.handledraw;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 
-import com.liumengqiang.gesturelock.gesture.interfaceview.IGraphicalView;
-import com.liumengqiang.gesturelock.gesture.model.ArrowPointCoordinate;
-import com.liumengqiang.gesturelock.gesture.model.AttrsModel;
-import com.liumengqiang.gesturelock.gesture.model.ChildGraphicalView;
-import com.liumengqiang.gesturelock.gesture.model.GestureViewType;
+import com.liumengqiang.gesturelock.interfaceview.IGraphicalView;
+import com.liumengqiang.gesturelock.model.ArrowPointCoordinate;
+import com.liumengqiang.gesturelock.model.AttrsModel;
+import com.liumengqiang.gesturelock.model.ChildGraphicalView;
+import com.liumengqiang.gesturelock.model.GestureViewType;
 
 import java.util.ArrayList;
 import java.util.Collection;

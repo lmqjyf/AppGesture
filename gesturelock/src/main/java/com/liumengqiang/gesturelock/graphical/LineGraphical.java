@@ -1,4 +1,4 @@
-package com.liumengqiang.gesturelock.gesture.graphical;
+package com.liumengqiang.gesturelock.graphical;
 
 import android.graphics.Paint;
 

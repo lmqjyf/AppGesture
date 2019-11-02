@@ -1,4 +1,4 @@
-package com.liumengqiang.gesturelock.gesture.listener;
+package com.liumengqiang.gesturelock.listener;
 
 import java.util.List;
 

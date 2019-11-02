@@ -1,6 +1,5 @@
-package com.liumengqiang.gesturelock.gesture.graphical;
+package com.liumengqiang.gesturelock.graphical;
 
-import android.graphics.Color;
 import android.graphics.Paint;
 
 /**
@@ -8,21 +7,21 @@ import android.graphics.Paint;
  * Create By：liumengqiang
  * Description：TODO
  */
-public class BigGraphical {
+public class SmallGraphical {
 
-    private int unSelectColor; //
-
-    private int selectColor;
+    private int unSelectColor; // 外部图形颜色
 
     private Paint.Style unSelectStyle; //
 
+    private int selectColor;
+
     private Paint.Style selectStyle;
 
-    public BigGraphical(int selectColor, int unSelectColor) {
-        this(selectColor, unSelectColor, Paint.Style.STROKE, Paint.Style.STROKE);
+    public SmallGraphical(int selectColor, int unSelectColor) {
+        this(selectColor, unSelectColor, Paint.Style.FILL, Paint.Style.FILL);
     }
 
-    private BigGraphical(int selectColor, int unSelectColor, Paint.Style unSelectStyle, Paint.Style selectStyle) {
+    private SmallGraphical(int selectColor, int unSelectColor, Paint.Style unSelectStyle, Paint.Style selectStyle) {
         this.selectColor = selectColor;
         this.unSelectColor = unSelectColor;
         this.unSelectStyle = unSelectStyle;

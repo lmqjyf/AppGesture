@@ -8,9 +8,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.liumengqiang.gesturelock.gesture.datahandle.GestureViewImpl;
-import com.liumengqiang.gesturelock.gesture.interfaceview.IGraphicalView;
-import com.liumengqiang.gesturelock.gesture.listener.GestureListener;
+import com.liumengqiang.gesturelock.datahandle.GestureViewImpl;
+import com.liumengqiang.gesturelock.interfaceview.IGraphicalView;
+import com.liumengqiang.gesturelock.listener.GestureListener;
 
 /**
  * FileName：GestureView

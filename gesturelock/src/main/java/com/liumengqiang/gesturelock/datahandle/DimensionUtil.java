@@ -1,4 +1,4 @@
-package com.liumengqiang.gesturelock.gesture.datahandle;
+package com.liumengqiang.gesturelock.datahandle;
 
 import android.content.Context;
 import android.util.TypedValue;

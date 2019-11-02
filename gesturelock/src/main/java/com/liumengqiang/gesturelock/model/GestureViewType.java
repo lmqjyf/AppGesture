@@ -1,4 +1,4 @@
-package com.liumengqiang.gesturelock.gesture.model;
+package com.liumengqiang.gesturelock.model;
 
 /**
  * author: liumengqiang

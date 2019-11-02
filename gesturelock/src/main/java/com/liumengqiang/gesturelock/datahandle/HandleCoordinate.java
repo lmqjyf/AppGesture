@@ -1,9 +1,9 @@
-package com.liumengqiang.gesturelock.gesture.datahandle;
+package com.liumengqiang.gesturelock.datahandle;
 
-import com.liumengqiang.gesturelock.gesture.model.ArrowPointCoordinate;
-import com.liumengqiang.gesturelock.gesture.model.AttrsModel;
-import com.liumengqiang.gesturelock.gesture.model.ChildGraphicalView;
-import com.liumengqiang.gesturelock.gesture.model.PointCoordinate;
+import com.liumengqiang.gesturelock.model.ArrowPointCoordinate;
+import com.liumengqiang.gesturelock.model.AttrsModel;
+import com.liumengqiang.gesturelock.model.ChildGraphicalView;
+import com.liumengqiang.gesturelock.model.PointCoordinate;
 
 import java.util.LinkedHashMap;
 import java.util.List;

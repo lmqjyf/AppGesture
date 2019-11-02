@@ -1,10 +1,10 @@
-package com.liumengqiang.gesturelock.gesture.interfaceview;
+package com.liumengqiang.gesturelock.interfaceview;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import com.liumengqiang.gesturelock.gesture.model.AttrsModel;
-import com.liumengqiang.gesturelock.gesture.model.ChildGraphicalView;
+import com.liumengqiang.gesturelock.model.AttrsModel;
+import com.liumengqiang.gesturelock.model.ChildGraphicalView;
 
 import java.util.LinkedHashMap;
 import java.util.List;

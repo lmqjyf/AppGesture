@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 
 import com.liumengqiang.gesturelock.GestureView;
-import com.liumengqiang.gesturelock.gesture.listener.GestureListener;
+import com.liumengqiang.gesturelock.listener.GestureListener;
 
 import java.util.List;
 

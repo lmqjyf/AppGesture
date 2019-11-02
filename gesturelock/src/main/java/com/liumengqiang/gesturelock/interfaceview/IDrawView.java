@@ -1,4 +1,4 @@
-package com.liumengqiang.gesturelock.gesture.interfaceview;
+package com.liumengqiang.gesturelock.interfaceview;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

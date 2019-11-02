@@ -1,4 +1,4 @@
-package com.liumengqiang.gesturelock.gesture.datahandle;
+package com.liumengqiang.gesturelock.datahandle;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -8,17 +8,17 @@ import android.view.MotionEvent;
 
 import com.liumengqiang.gesturelock.GestureView;
 import com.liumengqiang.gesturelock.R;
-import com.liumengqiang.gesturelock.gesture.handledraw.HandleArrowGraphicalView;
-import com.liumengqiang.gesturelock.gesture.handledraw.HandleBigGraphical;
-import com.liumengqiang.gesturelock.gesture.handledraw.HandleLineGraphical;
-import com.liumengqiang.gesturelock.gesture.handledraw.HandleSmallGraphical;
-import com.liumengqiang.gesturelock.gesture.interfaceview.IGraphicalView;
-import com.liumengqiang.gesturelock.gesture.interfaceview.IDrawView;
-import com.liumengqiang.gesturelock.gesture.interfaceview.ITouch;
-import com.liumengqiang.gesturelock.gesture.listener.GestureListener;
-import com.liumengqiang.gesturelock.gesture.model.AttrsModel;
-import com.liumengqiang.gesturelock.gesture.model.ChildGraphicalView;
-import com.liumengqiang.gesturelock.gesture.model.GestureViewType;
+import com.liumengqiang.gesturelock.handledraw.HandleArrowGraphicalView;
+import com.liumengqiang.gesturelock.handledraw.HandleBigGraphical;
+import com.liumengqiang.gesturelock.handledraw.HandleLineGraphical;
+import com.liumengqiang.gesturelock.handledraw.HandleSmallGraphical;
+import com.liumengqiang.gesturelock.interfaceview.IGraphicalView;
+import com.liumengqiang.gesturelock.interfaceview.IDrawView;
+import com.liumengqiang.gesturelock.interfaceview.ITouch;
+import com.liumengqiang.gesturelock.listener.GestureListener;
+import com.liumengqiang.gesturelock.model.AttrsModel;
+import com.liumengqiang.gesturelock.model.ChildGraphicalView;
+import com.liumengqiang.gesturelock.model.GestureViewType;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

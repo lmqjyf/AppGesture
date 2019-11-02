@@ -1,6 +1,5 @@
-package com.liumengqiang.gesturelock.gesture.model;
+package com.liumengqiang.gesturelock.model;
 
-import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 

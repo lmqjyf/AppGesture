@@ -16,5 +16,9 @@
         <attr name="arrowRadius" format="dimension"/>
         <attr name="bigGraphicalRadius" format="dimension"/>
         <attr name="smallGraphicalRadius" format="dimension"/>
+        <!--最低选中点的个数-->
+        <attr name="needSelectPointNumber" format="integer"/>
+        <!--选中错误颜色-->
+        <attr name="errorColor" format="color"/>
     </declare-styleable>
 </resources>

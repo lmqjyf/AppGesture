@@ -9,6 +9,7 @@ import com.bitcoin.juwan.appgesture.gesture.interfaceview.IGraphicalView;
 import com.bitcoin.juwan.appgesture.gesture.model.ArrowPointCoordinate;
 import com.bitcoin.juwan.appgesture.gesture.model.AttrsModel;
 import com.bitcoin.juwan.appgesture.gesture.model.ChildGraphicalView;
+import com.bitcoin.juwan.appgesture.gesture.model.GestureViewType;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,7 +43,7 @@ public class HandleArrowGraphicalView implements IGraphicalView {
     private List<ChildGraphicalView> replaceArray = new ArrayList();
 
     @Override
-    public void onDrawSelectView(Paint paint, Canvas canvas, LinkedHashMap<Integer, ChildGraphicalView> selectMap, AttrsModel attrsModel) {
+    public void onDrawSelectView(Paint paint, Canvas canvas, LinkedHashMap<Integer, ChildGraphicalView> selectMap, AttrsModel attrsModel, int TYPE) {
         Collection<ChildGraphicalView> values = selectMap.values();
         replaceArray.clear();
         replaceArray.addAll(values);
@@ -52,7 +53,7 @@ public class HandleArrowGraphicalView implements IGraphicalView {
             List<ArrowPointCoordinate> pointCoordinateList = pointCoordinate.getPointCoordinateList();
             for (ArrowPointCoordinate arrowPoint : pointCoordinateList) {
                 if (arrowPoint.getNextLinkedIndex() == nextIndex) {
-                    paint.setColor(attrsModel.getArrowColor());
+                    setPaintColor(paint, attrsModel, TYPE);
                     paint.setStyle(Paint.Style.FILL);
                     Path path = new Path();
                     path.moveTo(arrowPoint.getPoint1().getX(), arrowPoint.getPoint1().getY());// 此点为多边形的起点
@@ -61,6 +62,23 @@ public class HandleArrowGraphicalView implements IGraphicalView {
                     path.close(); // 使这些点构成封闭的多边形
                     canvas.drawPath(path, paint);
                 }
+            }
+        }
+    }
+
+    private void setPaintColor(Paint paint, AttrsModel attrsModel, int TYPE) {
+        switch (TYPE) {
+            case GestureViewType.TYPE_COMPLETE : {
+                paint.setColor(attrsModel.getArrowColor());
+                break;
+            }
+            case GestureViewType.TYPE_ERROR : {
+                paint.setColor(attrsModel.getErrorColor());
+                break;
+            }
+            case GestureViewType.TYPE_RESET : {
+                paint.setColor(attrsModel.getArrowColor());
+                break;
             }
         }
     }

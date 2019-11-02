@@ -3,12 +3,14 @@ package com.bitcoin.juwan.appgesture.gesture.datahandle;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 
 import com.bitcoin.juwan.appgesture.R;
+import com.bitcoin.juwan.appgesture.gesture.GestureView;
 import com.bitcoin.juwan.appgesture.gesture.handledraw.HandleArrowGraphicalView;
 import com.bitcoin.juwan.appgesture.gesture.handledraw.HandleBigGraphical;
 import com.bitcoin.juwan.appgesture.gesture.handledraw.HandleLineGraphical;
@@ -19,6 +21,7 @@ import com.bitcoin.juwan.appgesture.gesture.interfaceview.ITouch;
 import com.bitcoin.juwan.appgesture.gesture.listener.GestureListener;
 import com.bitcoin.juwan.appgesture.gesture.model.AttrsModel;
 import com.bitcoin.juwan.appgesture.gesture.model.ChildGraphicalView;
+import com.bitcoin.juwan.appgesture.gesture.model.GestureViewType;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -38,8 +41,6 @@ public class GestureViewImpl implements IDrawView, ITouch {
 
     private static List<Integer> indexList = new ArrayList<>();
 
-    private int needSelectPointNumber = 4; //最小选中点的数量。默认：4个
-
     private GestureListener gestureListener; //事件回调
 
     public IGraphicalView handleBigGraphical = new HandleBigGraphical();
@@ -51,13 +52,18 @@ public class GestureViewImpl implements IDrawView, ITouch {
 
     private AttrsModel attrsModel;
 
-    public GestureViewImpl(Context context, AttributeSet attrs) {
+    private GestureView gestureView;
+
+    private int gestureType = GestureViewType.TYPE_RESET;
+
+    public GestureViewImpl(GestureView gestureView, AttributeSet attrs) {
         if (attrs == null) {
             attrsModel = new AttrsModel();
             handleCoordinate = new HandleCoordinate();
             return;
         }
-        attrsModel = new AttrsModel(context.obtainStyledAttributes(attrs, R.styleable.GestureView));
+        this.gestureView = gestureView;
+        attrsModel = new AttrsModel(gestureView.getContext().obtainStyledAttributes(attrs, R.styleable.GestureView));
         handleCoordinate = new HandleCoordinate(attrsModel);
 
     }
@@ -87,15 +93,17 @@ public class GestureViewImpl implements IDrawView, ITouch {
 
     @Override
     public void onDrawSelectView(Paint paint, Canvas canvas) {
-        handleBigGraphical.onDrawSelectView(paint, canvas, selectPointMap, attrsModel);
-        handleSmallGraphical.onDrawSelectView(paint, canvas, selectPointMap, attrsModel);
-        handleLineGraphical.onDrawSelectView(paint, canvas, selectPointMap, attrsModel);
-        handleArrowGraphical.onDrawSelectView(paint, canvas, selectPointMap, attrsModel);
+        handleBigGraphical.onDrawSelectView(paint, canvas, selectPointMap, attrsModel, gestureType);
+        handleSmallGraphical.onDrawSelectView(paint, canvas, selectPointMap, attrsModel, gestureType);
+        handleLineGraphical.onDrawSelectView(paint, canvas, selectPointMap, attrsModel, gestureType);
+        handleArrowGraphical.onDrawSelectView(paint, canvas, selectPointMap, attrsModel, gestureType);
     }
 
     @Override
     public void onDrawLineView(Paint paint, Canvas canvas) {
-        canvas.drawLine(startX, startY, currencyX, currencyY, paint);
+        if(gestureType == GestureViewType.TYPE_RESET) {
+            canvas.drawLine(startX, startY, currencyX, currencyY, paint);
+        }
     }
 
     /**
@@ -108,59 +116,79 @@ public class GestureViewImpl implements IDrawView, ITouch {
     boolean isValid = false; //是否是有效触摸
 
     @Override
-    public boolean touchDown(MotionEvent event) {
+    public void touchDown(MotionEvent event) {
+        if(gestureListener != null) {
+            gestureListener.onStart();
+        }
         currencyX = event.getX();
         currencyY = event.getY();
         handleCoordinate.checkChildGraphicalPointIsContains(indexList, currencyX, currencyY, attrsModel.getBigGraphicalRadius(), selectPointMap, childGraphicalList);
         isValid = indexList.size() != 0 && indexList.get(0) > -1 ? true : false;
         if (isValid) {
-            startX = childGraphicalList.get(indexList.get(0)).getX();
-            startY = childGraphicalList.get(indexList.get(0)).getY();
-            selectPointMap.put(indexList.get(0), childGraphicalList.get(indexList.get(0)));
-            return true;
+            setStartXAndStartY();
+            gestureView.postInvalidate();
         }
-        return false;
+    }
+
+    private void setStartXAndStartY() {
+        for (Integer index : indexList) {
+            startX = childGraphicalList.get(index).getX();//重置线的起始点
+            startY = childGraphicalList.get(index).getY();
+            //
+            if(gestureListener != null) {
+                gestureListener.onPointNumberChange(index);
+            }
+        }
     }
 
     @Override
-    public boolean touchMove(MotionEvent event) {
+    public void touchMove(MotionEvent event) {
         if (!isValid) { //判断触摸点是否有效
-            return false;
+            return;
         }
         currencyX = event.getX();
         currencyY = event.getY();
         //
         handleCoordinate.getSelectIndex(indexList, selectPointMap, childGraphicalList, currencyX, currencyY, attrsModel);
-        for (Integer index : indexList) {
-            startX = childGraphicalList.get(index).getX();//重置线的起始点
-            startY = childGraphicalList.get(index).getY();
-        }
+
+        setStartXAndStartY();
 
         if (selectPointMap.size() != 0) {
-            return true;
-        } else {
-            return false;
+            gestureView.postInvalidate();
         }
     }
 
 
     @Override
-    public boolean touchUp(MotionEvent event) {
+    public void touchUp(MotionEvent event) {
         if (!isValid) { //判读触摸点是否有效
-            return false;
+            return;
         }
-        if (selectPointMap.size() < needSelectPointNumber) { //选中的数量小于最低需要选中的点数
+        if (selectPointMap.size() < attrsModel.getNeedSelectPointNumber()) { //选中的数量小于最低需要选中的点数
+            gestureType = GestureViewType.TYPE_ERROR;
             gestureListener.onFailed(); //回调
         } else { //大于最低需要选中的点数
+            gestureType = GestureViewType.TYPE_COMPLETE;
             gestureListener.onComplete(new ArrayList<>(selectPointMap.keySet()));
         }
-        currencyX = 0;
-        currencyY = 0;
-        startX = 0;
-        startY = 0;
-        selectPointMap.clear();
-        return true;
+        //刷新View
+        gestureView.postInvalidate();
+        //1S之后在此刷新View
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                gestureType = GestureViewType.TYPE_RESET;
+                currencyX = 0;
+                currencyY = 0;
+                startX = 0;
+                startY = 0;
+                selectPointMap.clear();
+                gestureView.postInvalidate();
+            }
+        }, 1000);
     }
+
+    private static Handler handler = new Handler();
 
     public void setGestureListener(GestureListener gestureListener) {
         this.gestureListener = gestureListener;

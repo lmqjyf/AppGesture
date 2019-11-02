@@ -23,10 +23,13 @@ public class AttrsModel {
     private int smallGraphicalSelectColor = Color.BLUE;
     private int lineColor = Color.BLUE;
     private int arrowColor = Color.BLUE;
+    private int errorColor = Color.RED;
 
     private float arrowLength = 12;
     private float bigGraphicalRadius = 50;
     private float smallGraphicalRadius = 15;
+
+    private int needSelectPointNumber = 4; // 默认最低选中四个
 
     public AttrsModel() {}
 
@@ -35,6 +38,7 @@ public class AttrsModel {
         bigGraphicalSelectColor = ta.getColor(R.styleable.GestureView_bigSelectGraphicalColor, Color.BLUE);
         smallGraphicalColor = ta.getColor(R.styleable.GestureView_smallGraphicalColor, Color.TRANSPARENT);
         smallGraphicalSelectColor = ta.getColor(R.styleable.GestureView_smallSelectGraphicalColor, Color.BLUE);
+        errorColor = ta.getColor(R.styleable.GestureView_errorColor, Color.RED);
         arrowIsNeed = ta.getBoolean(R.styleable.GestureView_arrowIsNeed, true);
         isSkipMiddlePoint = ta.getBoolean(R.styleable.GestureView_isSkipMiddlePoint, false);
         lineColor = ta.getColor(R.styleable.GestureView_lineColor, Color.BLUE);
@@ -42,6 +46,7 @@ public class AttrsModel {
         bigGraphicalRadius = ta.getDimension(R.styleable.GestureView_bigGraphicalRadius, 50);
         smallGraphicalRadius = ta.getDimension(R.styleable.GestureView_smallGraphicalRadius, 15);
         arrowColor = ta.getColor(R.styleable.GestureView_arrowColor, Color.BLUE);
+        needSelectPointNumber = ta.getInteger(R.styleable.GestureView_needSelectPointNumber, 4);
         ta.recycle();
     }
 
@@ -107,5 +112,13 @@ public class AttrsModel {
 
     public int getArrowColor() {
         return arrowColor;
+    }
+
+    public int getNeedSelectPointNumber() {
+        return needSelectPointNumber;
+    }
+
+    public int getErrorColor() {
+        return errorColor;
     }
 }

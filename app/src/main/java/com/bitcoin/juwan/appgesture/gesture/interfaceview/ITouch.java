@@ -8,9 +8,9 @@ import android.view.MotionEvent;
  * Description：TODO
  */
 public interface ITouch {
-    boolean touchDown(MotionEvent event);
+    void touchDown(MotionEvent event);
 
-    boolean touchMove(MotionEvent event);
+    void touchMove(MotionEvent event);
 
-    boolean touchUp(MotionEvent event);
+    void touchUp(MotionEvent event);
 }

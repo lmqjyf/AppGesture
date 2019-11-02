@@ -2,6 +2,7 @@ package com.bitcoin.juwan.appgesture;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.bitcoin.juwan.appgesture.gesture.listener.GestureListener;
@@ -18,6 +19,16 @@ public class MainActivity extends AppCompatActivity {
         
         GestureView gestureView = findViewById(R.id.gesture_view);
         gestureView.setGestureListener(new GestureListener() {
+            @Override
+            public void onStart() {
+                Log.e("----:" , "初始化完成");
+            }
+
+            @Override
+            public void onPointNumberChange(int selectIndex) {
+                Log.e("-----:", "点被选中");
+            }
+
             @Override
             public void onComplete(List<Integer> list) {
                 Toast.makeText(MainActivity.this, "选中", Toast.LENGTH_SHORT).show();

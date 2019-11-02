@@ -45,7 +45,7 @@ public class GestureView extends View {
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setColor(Color.BLUE);
-        viewImpl = new GestureViewImpl(getContext(), attrs);
+        viewImpl = new GestureViewImpl(this, attrs);
     }
 
     @Override
@@ -62,21 +62,15 @@ public class GestureView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN : {
-                if(viewImpl.touchDown(event)) {
-                    this.postInvalidate();
-                }
+                viewImpl.touchDown(event);
                 break;
             }
             case MotionEvent.ACTION_MOVE : {
-                if(viewImpl.touchMove(event)) {
-                    this.postInvalidate();
-                }
+                viewImpl.touchMove(event);
                 break;
             }
             case MotionEvent.ACTION_UP : {
-                if(viewImpl.touchUp(event)) {
-                    this.postInvalidate();
-                }
+                viewImpl.touchUp(event);
                 break;
             }
         }

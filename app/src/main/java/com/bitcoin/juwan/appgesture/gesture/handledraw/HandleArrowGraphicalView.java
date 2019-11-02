@@ -23,11 +23,6 @@ import java.util.List;
 public class HandleArrowGraphicalView implements IGraphicalView {
 
     @Override
-    public int getGraphicalViewRadius() {
-        return 0;
-    }
-
-    @Override
     public void onDrawInitView(Paint paint, Canvas canvas, List<ChildGraphicalView> coordinateList, AttrsModel attrsModel) {
 //        if (coordinateList.size() != 0) { //设置画笔属性
 //            int color = coordinateList.get(0).getBigGraphical().getUnSelectColor();
@@ -57,7 +52,7 @@ public class HandleArrowGraphicalView implements IGraphicalView {
             List<ArrowPointCoordinate> pointCoordinateList = pointCoordinate.getPointCoordinateList();
             for (ArrowPointCoordinate arrowPoint : pointCoordinateList) {
                 if (arrowPoint.getNextLinkedIndex() == nextIndex) {
-                    paint.setColor(Color.BLUE);
+                    paint.setColor(attrsModel.getArrowColor());
                     paint.setStyle(Paint.Style.FILL);
                     Path path = new Path();
                     path.moveTo(arrowPoint.getPoint1().getX(), arrowPoint.getPoint1().getY());// 此点为多边形的起点

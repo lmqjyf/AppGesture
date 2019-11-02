@@ -12,5 +12,9 @@
         <attr name="arrowIsNeed" format="boolean"/>
         <!--是否跳过中间的点-->
         <attr name="isSkipMiddlePoint" format="boolean"/>
+        <!--长度-->
+        <attr name="arrowRadius" format="dimension"/>
+        <attr name="bigGraphicalRadius" format="dimension"/>
+        <attr name="smallGraphicalRadius" format="dimension"/>
     </declare-styleable>
 </resources>

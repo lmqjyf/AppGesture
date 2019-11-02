@@ -1,14 +1,17 @@
 package com.bitcoin.juwan.appgesture.gesture.model;
 
+import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.util.Log;
 
 import com.bitcoin.juwan.appgesture.R;
+import com.bitcoin.juwan.appgesture.gesture.graphical.BigGraphical;
 
 /**
  * FileName：AttrsModel
  * Create By：liumengqiang
- * Description：TODO
+ * Description：
  */
 public class AttrsModel {
 
@@ -19,6 +22,11 @@ public class AttrsModel {
     private int smallGraphicalColor = Color.TRANSPARENT;
     private int smallGraphicalSelectColor = Color.BLUE;
     private int lineColor = Color.BLUE;
+    private int arrowColor = Color.BLUE;
+
+    private float arrowLength = 12;
+    private float bigGraphicalRadius = 50;
+    private float smallGraphicalRadius = 15;
 
     public AttrsModel() {}
 
@@ -30,6 +38,10 @@ public class AttrsModel {
         arrowIsNeed = ta.getBoolean(R.styleable.GestureView_arrowIsNeed, true);
         isSkipMiddlePoint = ta.getBoolean(R.styleable.GestureView_isSkipMiddlePoint, false);
         lineColor = ta.getColor(R.styleable.GestureView_lineColor, Color.BLUE);
+        arrowLength = ta.getDimension(R.styleable.GestureView_arrowRadius, 12);
+        bigGraphicalRadius = ta.getDimension(R.styleable.GestureView_bigGraphicalRadius, 50);
+        smallGraphicalRadius = ta.getDimension(R.styleable.GestureView_smallGraphicalRadius, 15);
+        arrowColor = ta.getColor(R.styleable.GestureView_arrowColor, Color.BLUE);
         ta.recycle();
     }
 
@@ -79,5 +91,21 @@ public class AttrsModel {
 
     public void setLineColor(int lineColor) {
         this.lineColor = lineColor;
+    }
+
+    public float getBigGraphicalRadius() {
+        return bigGraphicalRadius;
+    }
+
+    public  float getSmallGraphicalRadius() {
+        return smallGraphicalRadius;
+    }
+
+    public float getArrowLength() {
+        return arrowLength;
+    }
+
+    public int getArrowColor() {
+        return arrowColor;
     }
 }

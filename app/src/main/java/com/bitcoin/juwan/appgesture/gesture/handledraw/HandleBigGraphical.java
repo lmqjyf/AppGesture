@@ -18,13 +18,6 @@ import java.util.Map;
  */
 public class HandleBigGraphical implements IGraphicalView {
 
-    private static final int circleRadius = 50; //圆半径
-
-    @Override
-    public int getGraphicalViewRadius() {
-        return circleRadius;
-    }
-
     @Override
     public void onDrawInitView(Paint paint, Canvas canvas, List<ChildGraphicalView> coordinateList, AttrsModel attrsModel) {
         if(coordinateList.size() != 0) { //设置画笔属性
@@ -35,7 +28,7 @@ public class HandleBigGraphical implements IGraphicalView {
             paint.setStrokeWidth(2); //设置划线的宽度
         }
         for(ChildGraphicalView point : coordinateList) {
-            canvas.drawCircle(point.getX(), point.getY(), circleRadius, paint);
+            canvas.drawCircle(point.getX(), point.getY(), attrsModel.getBigGraphicalRadius(), paint);
         }
     }
 
@@ -49,7 +42,7 @@ public class HandleBigGraphical implements IGraphicalView {
                 paint.setStyle(Paint.Style.STROKE);
                 isNeedSet = false;
             }
-            canvas.drawCircle(pointCoordinate.getX(), pointCoordinate.getY(), circleRadius, paint);
+            canvas.drawCircle(pointCoordinate.getX(), pointCoordinate.getY(), attrsModel.getBigGraphicalRadius(), paint);
         }
     }
 }

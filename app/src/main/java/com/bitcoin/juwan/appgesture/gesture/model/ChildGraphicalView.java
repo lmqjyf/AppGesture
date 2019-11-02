@@ -1,12 +1,6 @@
 package com.bitcoin.juwan.appgesture.gesture.model;
 
-import android.graphics.Color;
-
-import com.bitcoin.juwan.appgesture.gesture.graphical.BigGraphical;
-import com.bitcoin.juwan.appgesture.gesture.graphical.SmallGraphical;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**

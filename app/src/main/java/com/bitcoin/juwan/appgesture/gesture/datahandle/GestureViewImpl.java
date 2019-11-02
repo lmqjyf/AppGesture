@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 
 import com.bitcoin.juwan.appgesture.R;
@@ -45,8 +47,6 @@ public class GestureViewImpl implements IDrawView, ITouch {
     public IGraphicalView handleLineGraphical = new HandleLineGraphical();
     public IGraphicalView handleArrowGraphical = new HandleArrowGraphicalView();
 
-    private int graphicalRadius = handleBigGraphical.getGraphicalViewRadius();
-
     private HandleCoordinate handleCoordinate = null;
 
     private AttrsModel attrsModel;
@@ -59,6 +59,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
         }
         attrsModel = new AttrsModel(context.obtainStyledAttributes(attrs, R.styleable.GestureView));
         handleCoordinate = new HandleCoordinate(attrsModel);
+
     }
 
     /**
@@ -70,10 +71,10 @@ public class GestureViewImpl implements IDrawView, ITouch {
             return;
         }
         //生成九个中心点坐标
-        handleCoordinate.initNinePointCoordinate(viewWidth, viewHeight, graphicalRadius, childGraphicalList);
+        handleCoordinate.initNinePointCoordinate(viewWidth, viewHeight, attrsModel.getBigGraphicalRadius(), childGraphicalList);
 
         //生成每个中心点包含箭头坐标（每个小箭头包含三个小坐标）
-        handleCoordinate.getArrowCoordinate(childGraphicalList, handleBigGraphical.getGraphicalViewRadius(), handleSmallGraphical.getGraphicalViewRadius());
+        handleCoordinate.getArrowCoordinate(childGraphicalList, attrsModel);
     }
 
     @Override
@@ -110,7 +111,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
     public boolean touchDown(MotionEvent event) {
         currencyX = event.getX();
         currencyY = event.getY();
-        handleCoordinate.checkChildGraphicalPointIsContains(indexList, currencyX, currencyY, graphicalRadius, selectPointMap, childGraphicalList);
+        handleCoordinate.checkChildGraphicalPointIsContains(indexList, currencyX, currencyY, attrsModel.getBigGraphicalRadius(), selectPointMap, childGraphicalList);
         isValid = indexList.size() != 0 && indexList.get(0) > -1 ? true : false;
         if (isValid) {
             startX = childGraphicalList.get(indexList.get(0)).getX();
@@ -129,7 +130,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
         currencyX = event.getX();
         currencyY = event.getY();
         //
-        handleCoordinate.getSelectIndex(indexList, selectPointMap, childGraphicalList, currencyX, currencyY, graphicalRadius, attrsModel);
+        handleCoordinate.getSelectIndex(indexList, selectPointMap, childGraphicalList, currencyX, currencyY, attrsModel);
         for (Integer index : indexList) {
             startX = childGraphicalList.get(index).getX();//重置线的起始点
             startY = childGraphicalList.get(index).getY();

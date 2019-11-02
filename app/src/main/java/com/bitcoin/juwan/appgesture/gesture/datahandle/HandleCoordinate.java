@@ -33,11 +33,11 @@ public class HandleCoordinate {
         return s * 2 / targetDistance;
     }
 
-    public void initNinePointCoordinate(int viewWidth, int viewHeight, int graphicalRadius, List<ChildGraphicalView> childGraphicalList) {
+    public void initNinePointCoordinate(int viewWidth, int viewHeight, float graphicalRadius, List<ChildGraphicalView> childGraphicalList) {
         //横向间隔
-        int divisionTransverse = (viewWidth - 6 * graphicalRadius) / 4;
+        float divisionTransverse = (viewWidth - 6 * graphicalRadius) / 4;
         //竖向间隔
-        int divisionVertical = (viewHeight - 6 * graphicalRadius) / 4;
+        float divisionVertical = (viewHeight - 6 * graphicalRadius) / 4;
         for(int i = 1; i <= 3; i++) {
             for(int j = 1; j <= 3; j++) {
                 ChildGraphicalView childGraphicalView = new ChildGraphicalView(
@@ -48,7 +48,7 @@ public class HandleCoordinate {
         }
     }
 
-    public void getArrowCoordinate(List<ChildGraphicalView> list, int outRadius, int inRadius) {
+    public void getArrowCoordinate(List<ChildGraphicalView> list, AttrsModel model) {
         for(int i = 0; i < list.size(); i++) {
             ChildGraphicalView pointI = list.get(i);
             List<ArrowPointCoordinate> pointCoordinateList = pointI.getPointCoordinateList();
@@ -60,14 +60,14 @@ public class HandleCoordinate {
                     ArrowPointCoordinate arrowPointCoordinate = new ArrowPointCoordinate();
                     arrowPointCoordinate.setNextLinkedIndex(j);
                     //顶点
-                    int pointLength = (outRadius - 12 - inRadius) / 2 + 12 + inRadius;
+                    float pointLength = (model.getBigGraphicalRadius() - model.getArrowLength() - model.getSmallGraphicalRadius()) / 2 + model.getArrowLength() + model.getSmallGraphicalRadius();
                     //获取小箭头第一个坐标
                     PointCoordinate point3 = getArrowPointCoordinate(i, j, pointJ.getPointCenter(), pointI.getPointCenter(), pointLength);
                     arrowPointCoordinate.setPoint3(point3);
                     //高坐标点
-                    PointCoordinate heightPoint = getArrowPointCoordinate(i, j, pointJ.getPointCenter(), pointI.getPointCenter(), pointLength - 12);
+                    PointCoordinate heightPoint = getArrowPointCoordinate(i, j, pointJ.getPointCenter(), pointI.getPointCenter(), pointLength - model.getArrowLength());
                     //获取剩余两个坐标点
-                    PointCoordinate[] pointCoordinate = getBottomCoordinate(point3, heightPoint, 12);
+                    PointCoordinate[] pointCoordinate = getBottomCoordinate(point3, heightPoint, model.getArrowLength());
                     arrowPointCoordinate.setPointCoordinate(pointCoordinate);
                     //
                     pointCoordinateList.add(arrowPointCoordinate);
@@ -76,7 +76,7 @@ public class HandleCoordinate {
         }
     }
 
-    private static PointCoordinate[] getBottomCoordinate(PointCoordinate  topPoint, PointCoordinate heightPoint, int lengthLine) {
+    private static PointCoordinate[] getBottomCoordinate(PointCoordinate  topPoint, PointCoordinate heightPoint, float lengthLine) {
         PointCoordinate[] pointCoordinates = new PointCoordinate[2];
         double radian = 180 / (Math.PI * 60);
         double L = lengthLine * Math.tan(radian);
@@ -100,7 +100,7 @@ public class HandleCoordinate {
      * @param lineLength  线段长度
      * @return
      */
-    private static PointCoordinate getArrowPointCoordinate(int index, int j, PointCoordinate point1, PointCoordinate point2, int lineLength) {
+    private static PointCoordinate getArrowPointCoordinate(int index, int j, PointCoordinate point1, PointCoordinate point2, float lineLength) {
         float x1 = point1.getX();
         float y1 = point1.getY();
         float x2 = point2.getX();
@@ -149,12 +149,12 @@ public class HandleCoordinate {
 
 
     public void getSelectIndex(List<Integer> indexList, LinkedHashMap<Integer, ChildGraphicalView> selectPointMap, List<ChildGraphicalView> childGraphicalList,
-                               float currencyX, float currencyY, int graphicalRadius, AttrsModel attrsModel) {
+                               float currencyX, float currencyY, AttrsModel attrsModel) {
         indexList.clear();
         if(attrsModel.isSkipMiddlePoint()) {
-            checkChildGraphicalPointIsContains(indexList,currencyX, currencyY, graphicalRadius, selectPointMap, childGraphicalList);
+            checkChildGraphicalPointIsContains(indexList,currencyX, currencyY, attrsModel.getBigGraphicalRadius(), selectPointMap, childGraphicalList);
         } else {
-            getSelectIndex(indexList, selectPointMap, childGraphicalList, currencyX, currencyY, graphicalRadius);
+            getSelectIndex(indexList, selectPointMap, childGraphicalList, currencyX, currencyY, attrsModel.getBigGraphicalRadius());
         }
     }
     /**
@@ -166,7 +166,7 @@ public class HandleCoordinate {
      * @param graphicalRadius
      */
     public void getSelectIndex(List<Integer> indexList,LinkedHashMap<Integer, ChildGraphicalView> selectPointMap, List<ChildGraphicalView> childGraphicalList,
-                               float currencyX, float currencyY, int graphicalRadius) {
+                               float currencyX, float currencyY, float graphicalRadius) {
         ChildGraphicalView unSelectPoint = null; //未选中的点坐标 （C点）
         ChildGraphicalView currSelectPoint = null; //上一个选中的点坐标 （B点）
         for(ChildGraphicalView childGraphicalView : selectPointMap.values()) {
@@ -203,7 +203,7 @@ public class HandleCoordinate {
      * 判断该触摸点是否在九个触摸圆内
      * @return
      */
-    public void checkChildGraphicalPointIsContains(List<Integer> indexList, float currencyX, float currencyY, int graphicalRadius, LinkedHashMap<Integer, ChildGraphicalView> selectPointMap, List<ChildGraphicalView> childGraphicalList) {
+    public void checkChildGraphicalPointIsContains(List<Integer> indexList, float currencyX, float currencyY, float graphicalRadius, LinkedHashMap<Integer, ChildGraphicalView> selectPointMap, List<ChildGraphicalView> childGraphicalList) {
         indexList.clear();
         for(int index = 0; index < childGraphicalList.size();) {
             ChildGraphicalView childGraphicalView = childGraphicalList.get(index);

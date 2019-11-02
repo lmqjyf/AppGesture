@@ -16,9 +16,6 @@ import java.util.List;
  */
 public interface IGraphicalView {
 
-    //设置半径
-    int getGraphicalViewRadius();
-
     void onDrawInitView(Paint paint, Canvas canvas, List<ChildGraphicalView> coordinateList, AttrsModel attrsModel);
 
     void onDrawSelectView(Paint paint, Canvas canvas, LinkedHashMap<Integer, ChildGraphicalView> selectMap, AttrsModel attrsModel);

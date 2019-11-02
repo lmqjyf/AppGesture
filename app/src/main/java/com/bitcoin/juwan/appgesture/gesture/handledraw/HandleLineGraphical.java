@@ -19,11 +19,6 @@ import java.util.Map;
 public class HandleLineGraphical implements IGraphicalView {
 
     @Override
-    public int getGraphicalViewRadius() {
-        return 0;
-    }
-
-    @Override
     public void onDrawInitView(Paint paint, Canvas canvas, List<ChildGraphicalView> coordinateList, AttrsModel attrsModel) {
 
     }

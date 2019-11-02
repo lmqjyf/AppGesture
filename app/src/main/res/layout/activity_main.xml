@@ -25,7 +25,10 @@
         app:lineColor="@color/colorAccent"
         app:arrowColor="@color/colorAccent"
         app:arrowIsNeed="true"
-        app:isSkipMiddlePoint="false"/>
+        app:isSkipMiddlePoint="false"
+        app:arrowRadius="5dp"
+        app:bigGraphicalRadius="21dp"
+        app:smallGraphicalRadius="8dp"/>
 
     <View
         android:layout_width="wrap_content"

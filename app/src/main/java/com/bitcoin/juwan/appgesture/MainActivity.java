@@ -5,8 +5,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.bitcoin.juwan.appgesture.gesture.listener.GestureListener;
-import com.bitcoin.juwan.appgesture.gesture.GestureView;
+
+import com.liumengqiang.gesturelock.GestureView;
+import com.liumengqiang.gesturelock.gesture.listener.GestureListener;
 
 import java.util.List;
 

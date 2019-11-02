@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -25,6 +26,8 @@ public class GestureView extends View {
     private int viewHeight;
 
     private GestureViewImpl viewImpl;
+
+    public boolean isUserTouch = false;
 
     public GestureView(Context context) {
         super(context);
@@ -75,6 +78,11 @@ public class GestureView extends View {
             }
         }
         return true;
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        return isUserTouch ? true : super.dispatchTouchEvent(event);
     }
 
     private void checkWidthHeight() {

@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.liumengqiang.gesturelock.GestureView;
@@ -114,6 +115,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
 
     @Override
     public void touchDown(MotionEvent event) {
+        Log.e("----", "触摸" + gestureType);
         if(gestureListener != null) {
             gestureListener.onStart();
         }
@@ -140,7 +142,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
 
     @Override
     public void touchMove(MotionEvent event) {
-        if (!isValid) { //判断触摸点是否有效
+        if (!isValid || selectPointMap.size() == 0) { //判断触摸点是否有效
             return;
         }
         currencyX = event.getX();
@@ -158,7 +160,8 @@ public class GestureViewImpl implements IDrawView, ITouch {
 
     @Override
     public void touchUp(MotionEvent event) {
-        if (!isValid) { //判读触摸点是否有效
+
+        if (!isValid || selectPointMap.size() == 0) { //判读触摸点是否有效
             return;
         }
         if (selectPointMap.size() < attrsModel.getNeedSelectPointNumber()) { //选中的数量小于最低需要选中的点数
@@ -170,10 +173,12 @@ public class GestureViewImpl implements IDrawView, ITouch {
         }
         //刷新View
         gestureView.postInvalidate();
+        gestureView.isUserTouch = true;
         //1S之后在此刷新View
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                gestureView.isUserTouch = false;
                 gestureType = GestureViewType.TYPE_RESET;
                 currencyX = 0;
                 currencyY = 0;
@@ -182,7 +187,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
                 selectPointMap.clear();
                 gestureView.postInvalidate();
             }
-        }, 1000);
+        }, 2000);
     }
 
     private static Handler handler = new Handler();

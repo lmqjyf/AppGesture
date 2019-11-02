@@ -19,7 +19,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         
         GestureView gestureView = findViewById(R.id.gesture_view);
+        gestureView.setGestureValue("1234");
         gestureView.setGestureListener(new GestureListener() {
+            @Override
+            public void passwordDisaccord() {
+                Toast.makeText(MainActivity.this, "两次输入密码不一致", Toast.LENGTH_SHORT).show();
+            }
+
             @Override
             public void onStart() {
                 Log.e("----:" , "初始化完成");

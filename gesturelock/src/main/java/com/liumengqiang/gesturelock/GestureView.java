@@ -5,13 +5,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.liumengqiang.gesturelock.datahandle.GestureViewImpl;
+import com.liumengqiang.gesturelock.datahandle.HandleCoordinate;
 import com.liumengqiang.gesturelock.interfaceview.IGraphicalView;
 import com.liumengqiang.gesturelock.listener.GestureListener;
+import com.liumengqiang.gesturelock.model.AttrsModel;
 
 /**
  * FileName：GestureView
@@ -48,7 +49,9 @@ public class GestureView extends View {
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setColor(Color.BLUE);
-        viewImpl = new GestureViewImpl(this, attrs);
+        AttrsModel attrsModel = new AttrsModel(getContext().obtainStyledAttributes(attrs, R.styleable.GestureView));
+        HandleCoordinate handleCoordinate = new HandleCoordinate(attrsModel);
+        viewImpl = new GestureViewImpl(this, attrsModel, handleCoordinate);
     }
 
     @Override
@@ -113,5 +116,9 @@ public class GestureView extends View {
     public void setHandleLineGraphical(IGraphicalView iHandleDraw) {
         viewImpl.handleLineGraphical = iHandleDraw;
         this.postInvalidate();
+    }
+
+    public void setGestureValue(String gestureValue) {
+        viewImpl.setGestureValue(gestureValue);
     }
 }

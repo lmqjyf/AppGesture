@@ -3,12 +3,12 @@ package com.liumengqiang.gesturelock.datahandle;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Handler;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.liumengqiang.gesturelock.GestureView;
-import com.liumengqiang.gesturelock.R;
+import com.liumengqiang.gesturelock.datahandle.gesturetype.CheckGestureHandleData;
+import com.liumengqiang.gesturelock.datahandle.gesturetype.IHandleData;
+import com.liumengqiang.gesturelock.datahandle.gesturetype.SetGestureHandleData;
 import com.liumengqiang.gesturelock.handledraw.HandleArrowGraphicalView;
 import com.liumengqiang.gesturelock.handledraw.HandleBigGraphical;
 import com.liumengqiang.gesturelock.handledraw.HandleLineGraphical;
@@ -33,37 +33,39 @@ import java.util.List;
 public class GestureViewImpl implements IDrawView, ITouch {
 
     //存储九个点
-    private static List<ChildGraphicalView> childGraphicalList = new ArrayList<>();
+    public static List<ChildGraphicalView> childGraphicalList = new ArrayList<>();
     //存储选中的点
-    private static LinkedHashMap<Integer, ChildGraphicalView> selectPointMap = new LinkedHashMap<>();
+    public static LinkedHashMap<Integer, ChildGraphicalView> selectPointMap = new LinkedHashMap<>();
 
     private static List<Integer> indexList = new ArrayList<>();
-
-    private GestureListener gestureListener; //事件回调
 
     public IGraphicalView handleBigGraphical = new HandleBigGraphical();
     public IGraphicalView handleSmallGraphical = new HandleSmallGraphical();
     public IGraphicalView handleLineGraphical = new HandleLineGraphical();
     public IGraphicalView handleArrowGraphical = new HandleArrowGraphicalView();
 
-    private HandleCoordinate handleCoordinate = null;
+    private HandleCoordinate handleCoordinate;
 
-    private AttrsModel attrsModel;
+    private GestureListener gestureListener;
+
+    public AttrsModel attrsModel;
 
     private GestureView gestureView;
 
-    private int gestureType = GestureViewType.TYPE_RESET;
+    public int gestureResultType = GestureViewType.TYPE_RESET;
 
-    public GestureViewImpl(GestureView gestureView, AttributeSet attrs) {
-        if (attrs == null) {
-            attrsModel = new AttrsModel();
-            handleCoordinate = new HandleCoordinate();
-            return;
-        }
+    private IHandleData iHandleData = null;
+
+    public GestureViewImpl(GestureView gestureView, AttrsModel attrsModel, HandleCoordinate handleCoordinate) {
+        this.attrsModel = attrsModel;
         this.gestureView = gestureView;
-        attrsModel = new AttrsModel(gestureView.getContext().obtainStyledAttributes(attrs, R.styleable.GestureView));
-        handleCoordinate = new HandleCoordinate(attrsModel);
+        this.handleCoordinate = handleCoordinate;
 
+        if(attrsModel.getGestureType() == GestureViewType.TYPE_CHECK_GESTURE) {
+            iHandleData = new CheckGestureHandleData(this);
+        } else {
+            iHandleData = new SetGestureHandleData(this);
+        }
     }
 
     /**
@@ -91,15 +93,15 @@ public class GestureViewImpl implements IDrawView, ITouch {
 
     @Override
     public void onDrawSelectView(Paint paint, Canvas canvas) {
-        handleBigGraphical.onDrawSelectView(paint, canvas, selectPointMap, attrsModel, gestureType);
-        handleSmallGraphical.onDrawSelectView(paint, canvas, selectPointMap, attrsModel, gestureType);
-        handleLineGraphical.onDrawSelectView(paint, canvas, selectPointMap, attrsModel, gestureType);
-        handleArrowGraphical.onDrawSelectView(paint, canvas, selectPointMap, attrsModel, gestureType);
+        handleBigGraphical.onDrawSelectView(paint, canvas, selectPointMap, attrsModel, gestureResultType);
+        handleSmallGraphical.onDrawSelectView(paint, canvas, selectPointMap, attrsModel, gestureResultType);
+        handleLineGraphical.onDrawSelectView(paint, canvas, selectPointMap, attrsModel, gestureResultType);
+        handleArrowGraphical.onDrawSelectView(paint, canvas, selectPointMap, attrsModel, gestureResultType);
     }
 
     @Override
     public void onDrawLineView(Paint paint, Canvas canvas) {
-        if(gestureType == GestureViewType.TYPE_RESET) {
+        if(gestureResultType == GestureViewType.TYPE_RESET) {
             canvas.drawLine(startX, startY, currencyX, currencyY, paint);
         }
     }
@@ -115,7 +117,6 @@ public class GestureViewImpl implements IDrawView, ITouch {
 
     @Override
     public void touchDown(MotionEvent event) {
-        Log.e("----", "触摸" + gestureType);
         if(gestureListener != null) {
             gestureListener.onStart();
         }
@@ -164,13 +165,22 @@ public class GestureViewImpl implements IDrawView, ITouch {
         if (!isValid || selectPointMap.size() == 0) { //判读触摸点是否有效
             return;
         }
+        currencyX = 0;
+        currencyY = 0;
+        startX = 0;
+        startY = 0;
+        /**
+         * 处理数据
+         */
         if (selectPointMap.size() < attrsModel.getNeedSelectPointNumber()) { //选中的数量小于最低需要选中的点数
-            gestureType = GestureViewType.TYPE_ERROR;
-            gestureListener.onFailed(); //回调
-        } else { //大于最低需要选中的点数
-            gestureType = GestureViewType.TYPE_COMPLETE;
-            gestureListener.onComplete(new ArrayList<>(selectPointMap.keySet()));
+            gestureResultType = GestureViewType.TYPE_ERROR;
+            if(gestureListener != null) {
+                gestureListener.onFailed(); //回调
+            }
+        } else { //单独处理
+            iHandleData.handleData();
         }
+
         //刷新View
         gestureView.postInvalidate();
         gestureView.isUserTouch = true;
@@ -178,21 +188,23 @@ public class GestureViewImpl implements IDrawView, ITouch {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                gestureView.isUserTouch = false;
-                gestureType = GestureViewType.TYPE_RESET;
-                currencyX = 0;
-                currencyY = 0;
-                startX = 0;
-                startY = 0;
                 selectPointMap.clear();
+                gestureView.isUserTouch = false;
+                gestureResultType = GestureViewType.TYPE_RESET;
                 gestureView.postInvalidate();
             }
         }, 2000);
+
     }
 
     private static Handler handler = new Handler();
 
     public void setGestureListener(GestureListener gestureListener) {
         this.gestureListener = gestureListener;
+        iHandleData.setGestureListener(gestureListener);
+    }
+
+    public void setGestureValue(String gestureValue) {
+        iHandleData.setGestureValue(gestureValue);
     }
 }

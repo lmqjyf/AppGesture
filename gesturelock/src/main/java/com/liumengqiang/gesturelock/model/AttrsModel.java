@@ -28,6 +28,10 @@ public class AttrsModel {
 
     private int needSelectPointNumber = 4; // 默认最低选中四个
 
+    private int gestureType; //手势类型
+
+    private String gestureValue = null; //手势的值
+
     public AttrsModel() {}
 
     public AttrsModel(TypedArray ta) {
@@ -44,6 +48,7 @@ public class AttrsModel {
         smallGraphicalRadius = ta.getDimension(R.styleable.GestureView_smallGraphicalRadius, 15);
         arrowColor = ta.getColor(R.styleable.GestureView_arrowColor, Color.BLUE);
         needSelectPointNumber = ta.getInteger(R.styleable.GestureView_needSelectPointNumber, 4);
+        gestureType = ta.getInteger(R.styleable.GestureView_gestureType,3);
         ta.recycle();
     }
 
@@ -117,5 +122,9 @@ public class AttrsModel {
 
     public int getErrorColor() {
         return errorColor;
+    }
+
+    public int getGestureType() {
+        return gestureType;
     }
 }

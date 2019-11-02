@@ -17,4 +17,6 @@ public interface IDrawView {
     void onDrawSelectView(Paint paint, Canvas canvas);
 
     void onDrawLineView(Paint paint, Canvas canvas);
+
+//    void setGestureStatus(int )
 }

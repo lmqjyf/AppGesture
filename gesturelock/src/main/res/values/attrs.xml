@@ -20,5 +20,10 @@
         <attr name="needSelectPointNumber" format="integer"/>
         <!--选中错误颜色-->
         <attr name="errorColor" format="color"/>
+        <!--手势类型-->
+        <attr name="gestureType" format="enum">
+            <enum name="check_gesture" value="3"/>
+            <enum name="set_gesture" value="4"/>
+        </attr>
     </declare-styleable>
 </resources>

@@ -1,16 +1,14 @@
 package com.liumengqiang.gesturelock.datahandle.gesturetype;
 
-import com.liumengqiang.gesturelock.listener.GestureListener;
+import java.util.Set;
 
 /**
  * author: liumengqiang
  * Date : 2019/11/2
  * Description :
  */
-public interface IHandleData {
-    void handleData();
+public interface IProcessor {
+    int handleData(Set<Integer> selectIndexArray);
 
     void setGestureValue(String gestureValue);
-
-    void setGestureListener(GestureListener listener);
 }

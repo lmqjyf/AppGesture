@@ -24,6 +24,6 @@
         android:layout_height="60dp"
         android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:text="检查密码"/>
+        android:text="设置密码"/>
 
 </LinearLayout>

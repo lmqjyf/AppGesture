@@ -30,8 +30,7 @@
         app:bigGraphicalRadius="23dp"
         app:smallGraphicalRadius="8dp"
         app:needSelectPointNumber="4"
-        app:errorColor="@color/colorAccent"
-        app:gestureType="check_gesture"/>
+        app:errorColor="@color/colorAccent"/>
 
     <View
         android:layout_width="wrap_content"

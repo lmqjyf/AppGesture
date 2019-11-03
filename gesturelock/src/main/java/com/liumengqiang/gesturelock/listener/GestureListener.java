@@ -17,5 +17,7 @@ public interface GestureListener {
 
     void onFailed(); //小于最低设置的点个数（默认：4个， 详见：AttrsModel）
 
-    void passwordDisaccord(); //密码不一致
+    void valueDisaccord(); //设置不一致
+
+    void transitionStatus(); //过渡状态（需要多次输入校验，比如：设置密码）
 }

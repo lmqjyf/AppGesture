@@ -6,9 +6,9 @@ import android.os.Handler;
 import android.view.MotionEvent;
 
 import com.liumengqiang.gesturelock.GestureView;
-import com.liumengqiang.gesturelock.datahandle.gesturetype.CheckGestureHandleData;
-import com.liumengqiang.gesturelock.datahandle.gesturetype.IHandleData;
-import com.liumengqiang.gesturelock.datahandle.gesturetype.SetGestureHandleData;
+import com.liumengqiang.gesturelock.datahandle.gesturetype.CheckGestureProcessor;
+import com.liumengqiang.gesturelock.datahandle.gesturetype.IProcessor;
+import com.liumengqiang.gesturelock.datahandle.gesturetype.SetGestureProcessor;
 import com.liumengqiang.gesturelock.handledraw.HandleArrowGraphicalView;
 import com.liumengqiang.gesturelock.handledraw.HandleBigGraphical;
 import com.liumengqiang.gesturelock.handledraw.HandleLineGraphical;
@@ -54,17 +54,17 @@ public class GestureViewImpl implements IDrawView, ITouch {
 
     public int gestureResultType = GestureViewType.TYPE_RESET;
 
-    private IHandleData iHandleData = null;
+    private IProcessor iProcessor = null;
 
     public GestureViewImpl(GestureView gestureView, AttrsModel attrsModel, HandleCoordinate handleCoordinate) {
         this.attrsModel = attrsModel;
         this.gestureView = gestureView;
         this.handleCoordinate = handleCoordinate;
 
-        if(attrsModel.getGestureType() == GestureViewType.TYPE_CHECK_GESTURE) {
-            iHandleData = new CheckGestureHandleData(this);
+        if (attrsModel.getGestureType() == GestureViewType.TYPE_CHECK_GESTURE) {
+            iProcessor = new CheckGestureProcessor();
         } else {
-            iHandleData = new SetGestureHandleData(this);
+            iProcessor = new SetGestureProcessor();
         }
     }
 
@@ -101,7 +101,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
 
     @Override
     public void onDrawLineView(Paint paint, Canvas canvas) {
-        if(gestureResultType == GestureViewType.TYPE_RESET) {
+        if (gestureResultType == GestureViewType.TYPE_RESET) {
             canvas.drawLine(startX, startY, currencyX, currencyY, paint);
         }
     }
@@ -117,7 +117,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
 
     @Override
     public void touchDown(MotionEvent event) {
-        if(gestureListener != null) {
+        if (gestureListener != null) {
             gestureListener.onStart();
         }
         currencyX = event.getX();
@@ -135,7 +135,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
             startX = childGraphicalList.get(index).getX();//重置线的起始点
             startY = childGraphicalList.get(index).getY();
             //
-            if(gestureListener != null) {
+            if (gestureListener != null) {
                 gestureListener.onPointNumberChange(index);
             }
         }
@@ -174,11 +174,13 @@ public class GestureViewImpl implements IDrawView, ITouch {
          */
         if (selectPointMap.size() < attrsModel.getNeedSelectPointNumber()) { //选中的数量小于最低需要选中的点数
             gestureResultType = GestureViewType.TYPE_ERROR;
-            if(gestureListener != null) {
+            if (gestureListener != null) {
                 gestureListener.onFailed(); //回调
             }
         } else { //单独处理
-            iHandleData.handleData();
+            gestureResultType = iProcessor.handleData(selectPointMap.keySet());
+
+            handleGestureResult();
         }
 
         //刷新View
@@ -197,18 +199,32 @@ public class GestureViewImpl implements IDrawView, ITouch {
 
     }
 
+    private void handleGestureResult() {
+        if (gestureListener == null) {
+            return;
+        }
+        //
+        if(gestureResultType == GestureViewType.TYPE_TRANSITION) {
+            gestureListener.transitionStatus();
+        }
+        if (gestureResultType == GestureViewType.TYPE_COMPLETE) {
+            gestureListener.onComplete(new ArrayList<>(selectPointMap.keySet()));
+        } else if(gestureResultType == GestureViewType.TYPE_ERROR) {
+            gestureListener.valueDisaccord();
+        }
+    }
+
     private static Handler handler = new Handler();
 
     public void setGestureListener(GestureListener gestureListener) {
         this.gestureListener = gestureListener;
-        iHandleData.setGestureListener(gestureListener);
     }
 
     public void setGestureValue(String gestureValue) {
-        iHandleData.setGestureValue(gestureValue);
+        iProcessor.setGestureValue(gestureValue);
     }
 
-    public void setiHandleData(IHandleData iHandleData) {
-        this.iHandleData = iHandleData;
+    public void setProcessor(IProcessor iProcessor) {
+        this.iProcessor = iProcessor;
     }
 }

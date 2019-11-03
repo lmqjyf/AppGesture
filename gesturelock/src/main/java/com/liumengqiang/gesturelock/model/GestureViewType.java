@@ -13,7 +13,9 @@ public interface GestureViewType {
 
     int TYPE_ERROR = -1; //移动完成（小于需要默认选中的点）
 
-    int TYPE_RESET = 2; //重置标记
+    int TYPE_RESET = 2; //重置标记 （移动过程中或者没开始移动，或者不错特殊处理）
+
+    int TYPE_TRANSITION = -2; //过渡状态（需要多次输入校验，比如：设置密码）
 
 
     /**

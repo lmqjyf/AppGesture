@@ -30,8 +30,6 @@ public class AttrsModel {
 
     private int gestureType; //手势类型
 
-    private String gestureValue = null; //手势的值
-
     public AttrsModel() {}
 
     public AttrsModel(TypedArray ta) {

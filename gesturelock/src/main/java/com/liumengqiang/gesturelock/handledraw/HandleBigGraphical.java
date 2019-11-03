@@ -57,15 +57,15 @@ public class HandleBigGraphical implements IGraphicalView {
 
     private void setPaintColor(Paint paint, AttrsModel attrsModel, int TYPE) {
         switch (TYPE) {
-            case GestureViewType.TYPE_COMPLETE : {
+            case GestureViewType.TYPE_COMPLETE : { //成功
                 paint.setColor(attrsModel.getBigGraphicalSelectColor());
                 break;
             }
-            case GestureViewType.TYPE_ERROR : {
+            case GestureViewType.TYPE_ERROR : { //错误
                 paint.setColor(attrsModel.getErrorColor());
                 break;
             }
-            case GestureViewType.TYPE_RESET : {
+            case GestureViewType.TYPE_RESET : { //绘制中
                 paint.setColor(attrsModel.getBigGraphicalSelectColor());
                 break;
             }

@@ -1,5 +1,7 @@
 # AppGesture 
 Android 手势解锁
+
+```
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="GestureView">
@@ -75,6 +77,8 @@ public interface IGraphicalView {
 **支持自定义手势结果处理器**
 **支持自定义手势结果处理器**
 **支持自定义手势结果处理器**
+
+
 
 |方法|参数  |返回值  |
 |--|--|--|

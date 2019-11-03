@@ -32,7 +32,6 @@ Android 手势解锁
     </declare-styleable>
 </resources>
 ```
-上述列出了该Demo支持的属性。
 
 **支持自定义大圆，小圆，以及连接的线段**
 |方法|参数  |
@@ -76,8 +75,6 @@ public interface IGraphicalView {
 **支持自定义手势结果处理器**
 **支持自定义手势结果处理器**
 **支持自定义手势结果处理器**
-
-这个功能点肯定很重要吧，因为，你想自己处理手势的判断逻辑。我们可能是设置密码，也可能是验证密码，这样的处理逻辑是不一样的，这时候我们就可以自定义。
 
 |方法|参数  |返回值  |
 |--|--|--|
@@ -178,8 +175,6 @@ gestureView.setiHandleData(new CheckGestureProcessor());
             }
         });
 ```
-
-基本功能点讲完了，如果听的有点迷糊，我觉得下载一下Demo，然后对照 Demo跑一遍，就OK了。
 
 再附上一张整体效果Gif：
 <img src="https://s33.aconvert.com/convert/p3r68-cdx67/qjie9-vtpd1.gif" width='30%'></img>

@@ -36,6 +36,7 @@ Android 手势解锁
 ```
 
 **支持自定义大圆，小圆，以及连接的线段**
+
 |方法|参数  |
 |--|--|
 | setHandleBigGraphical | IGraphicalView接口 |
@@ -135,6 +136,7 @@ gestureView.setiHandleData(new CheckGestureProcessor());
 
 
 **结果回调GestureListener**
+
 |方法|描述  |
 |--|--|
 | onStart | 手势开始时触发 |

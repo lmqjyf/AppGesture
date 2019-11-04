@@ -183,5 +183,5 @@ gestureView.setiHandleData(new CheckGestureProcessor());
 ```
 
 再附上一张整体效果Gif：
-<img src="https://s33.aconvert.com/convert/p3r68-cdx67/qjie9-vtpd1.gif" width='30%'></img>
+<img src="https://s31.aconvert.com/convert/p3r68-cdx67/s2q7w-rya6q.gif" width='30%'></img>
  

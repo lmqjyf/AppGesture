@@ -9,9 +9,9 @@ public interface GestureViewType {
     /**
      * 触摸过程类型
      */
-    int TYPE_COMPLETE = 1; //移动完成（大于需要默认选中的点）
+    int TYPE_COMPLETE = 1; //最终完成设置或者校验（大于需要默认选中的点）
 
-    int TYPE_ERROR = -1; //移动完成（小于需要默认选中的点）
+    int TYPE_ERROR = -1; //最终状态失败（小于需要默认选中的点）
 
     int TYPE_RESET = 2; //重置标记 （移动过程中或者没开始移动，或者不错特殊处理）
 

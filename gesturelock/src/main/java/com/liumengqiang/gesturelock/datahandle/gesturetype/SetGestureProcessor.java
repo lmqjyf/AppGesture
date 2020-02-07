@@ -1,6 +1,5 @@
 package com.liumengqiang.gesturelock.datahandle.gesturetype;
 
-import com.liumengqiang.gesturelock.listener.GestureListener;
 import com.liumengqiang.gesturelock.model.GestureViewType;
 
 import java.util.Set;
@@ -11,8 +10,6 @@ import java.util.Set;
  * Description : 手势类型：设置数据类型
  */
 public class SetGestureProcessor implements IProcessor {
-
-    private GestureListener setGestureListener;
 
     String firstSelectValue = ""; //第一次选中的值
 

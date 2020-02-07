@@ -16,7 +16,7 @@ import com.liumengqiang.gesturelock.handledraw.HandleSmallGraphical;
 import com.liumengqiang.gesturelock.interfaceview.IGraphicalView;
 import com.liumengqiang.gesturelock.interfaceview.IDrawView;
 import com.liumengqiang.gesturelock.interfaceview.ITouch;
-import com.liumengqiang.gesturelock.listener.GestureListener;
+import com.liumengqiang.gesturelock.listener.IGestureListener;
 import com.liumengqiang.gesturelock.model.AttrsModel;
 import com.liumengqiang.gesturelock.model.ChildGraphicalView;
 import com.liumengqiang.gesturelock.model.GestureViewType;
@@ -46,7 +46,7 @@ public class GestureViewImpl implements IDrawView, ITouch {
 
     private HandleCoordinate handleCoordinate;
 
-    private GestureListener gestureListener;
+    private IGestureListener gestureListener;
 
     public AttrsModel attrsModel;
 
@@ -173,17 +173,19 @@ public class GestureViewImpl implements IDrawView, ITouch {
          * 处理数据
          */
         if (selectPointMap.size() < attrsModel.getNeedSelectPointNumber()) { //选中的数量小于最低需要选中的点数
+            //设置错误标记
             gestureResultType = GestureViewType.TYPE_ERROR;
             if (gestureListener != null) {
-                gestureListener.onFailed(); //回调
+                gestureListener.onPointLessThanSetting(); //回调
             }
         } else { //单独处理
+            //自定义处理器（SetGestureProcessor & CheckGestureProcessor）
             gestureResultType = iProcessor.handleData(selectPointMap.keySet());
-
+            //处理结果
             handleGestureResult();
         }
 
-        //刷新View
+        //刷新View(重置视图)
         gestureView.postInvalidate();
         gestureView.isUserTouch = true;
         //1S之后在此刷新View
@@ -199,24 +201,29 @@ public class GestureViewImpl implements IDrawView, ITouch {
 
     }
 
+    /**
+     * 处理手势结果
+     */
     private void handleGestureResult() {
         if (gestureListener == null) {
             return;
         }
-        //
+        //如果有过渡状态（手势设置）
         if(gestureResultType == GestureViewType.TYPE_TRANSITION) {
             gestureListener.transitionStatus();
         }
         if (gestureResultType == GestureViewType.TYPE_COMPLETE) {
+            //最终完成
             gestureListener.onComplete(new ArrayList<>(selectPointMap.keySet()));
         } else if(gestureResultType == GestureViewType.TYPE_ERROR) {
-            gestureListener.valueDisaccord();
+            //最终失败
+            gestureListener.onFailed();
         }
     }
 
     private static Handler handler = new Handler();
 
-    public void setGestureListener(GestureListener gestureListener) {
+    public void setGestureListener(IGestureListener gestureListener) {
         this.gestureListener = gestureListener;
     }
 

@@ -3,21 +3,34 @@ package com.liumengqiang.gesturelock.listener;
 import java.util.List;
 
 /**
- * FileName：GestureListener
- * Create By：liumengqiang
- * Description：TODO
+ * author: liumengqiang
+ * Date : 2020/2/7
+ * Description :
  */
-public interface GestureListener {
+public abstract class GestureListener implements IGestureListener {
+    @Override
+    public void onFailed() {
+    }
 
-    void onStart(); //开始选中
+    @Override
+    public void transitionStatus() {
 
-    void onPointNumberChange(int selectIndex); //选中点触发
+    }
 
-    void onComplete(List<Integer> list); //手指离开屏幕
+    @Override
+    public void onStart() {
+    }
 
-    void onFailed(); //小于最低设置的点个数（默认：4个， 详见：AttrsModel）
+    @Override
+    public void onPointNumberChange(int selectIndex) {
+    }
 
-    void valueDisaccord(); //设置不一致
+    @Override
+    public void onComplete(List<Integer> list) {
+    }
 
-    void transitionStatus(); //过渡状态（需要多次输入校验，比如：设置密码）
+    @Override
+    public void onPointLessThanSetting() {
+    }
+
 }

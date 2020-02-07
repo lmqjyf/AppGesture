@@ -143,7 +143,7 @@ gestureView.setiHandleData(new CheckGestureProcessor());
 | onPointNumberChange | 移动过程中，选中点时触发|
 | onComplete | 设置成功时触发 |
 | onFailed | 小于最低设置的点个数触发 |
-| valueDisaccord | 输入手势值不一样时触发|
+| onFailed | 输入手势值不一样时触发|
 | transitionStatus |过渡状态触发（需要多次输入校验，比如：设置密码） |
 
 如下示例：
@@ -151,7 +151,7 @@ gestureView.setiHandleData(new CheckGestureProcessor());
 ```
         gestureView.setGestureListener(new GestureListener() {
             @Override
-            public void valueDisaccord() {
+            public void onFailed() {
                 Toast.makeText(CheckGestureActivity.this, "输入密码错误", Toast.LENGTH_SHORT).show();
             }
 

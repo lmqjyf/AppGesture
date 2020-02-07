@@ -24,7 +24,7 @@ public class SetGestureActivity extends AppCompatActivity {
         gestureView.setGestureValue("1234"); //设置需要校验的值
         gestureView.setGestureListener(new GestureListener() {
             @Override
-            public void valueDisaccord() {
+            public void onFailed() {
                 Toast.makeText(SetGestureActivity.this, "两次输入密码不一致", Toast.LENGTH_SHORT).show();
             }
 
@@ -49,7 +49,7 @@ public class SetGestureActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailed() {
+            public void onPointLessThanSetting() {
                 Toast.makeText(SetGestureActivity.this, "输入个数小于4", Toast.LENGTH_SHORT).show();
             }
         });

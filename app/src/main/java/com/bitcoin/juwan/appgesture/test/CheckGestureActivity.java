@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import com.bitcoin.juwan.appgesture.R;
 import com.liumengqiang.gesturelock.GestureView;
-import com.liumengqiang.gesturelock.datahandle.gesturetype.CheckGestureProcessor;
 import com.liumengqiang.gesturelock.listener.GestureListener;
 
 import java.util.List;
@@ -29,13 +28,8 @@ public class CheckGestureActivity extends AppCompatActivity {
         gestureView.setGestureValue("1234");
         gestureView.setGestureListener(new GestureListener() {
             @Override
-            public void valueDisaccord() {
+            public void onFailed() {
                 Toast.makeText(CheckGestureActivity.this, "输入密码错误", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void transitionStatus() {
-
             }
 
             @Override
@@ -54,7 +48,7 @@ public class CheckGestureActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailed() {
+            public void onPointLessThanSetting() {
                 Toast.makeText(CheckGestureActivity.this, "个数小于四个", Toast.LENGTH_SHORT).show();
             }
         });

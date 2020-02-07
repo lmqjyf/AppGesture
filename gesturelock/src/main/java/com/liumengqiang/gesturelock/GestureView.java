@@ -12,7 +12,7 @@ import com.liumengqiang.gesturelock.datahandle.GestureViewImpl;
 import com.liumengqiang.gesturelock.datahandle.HandleCoordinate;
 import com.liumengqiang.gesturelock.datahandle.gesturetype.IProcessor;
 import com.liumengqiang.gesturelock.interfaceview.IGraphicalView;
-import com.liumengqiang.gesturelock.listener.GestureListener;
+import com.liumengqiang.gesturelock.listener.IGestureListener;
 import com.liumengqiang.gesturelock.model.AttrsModel;
 
 /**
@@ -96,7 +96,7 @@ public class GestureView extends View {
         }
     }
 
-    public void setGestureListener(GestureListener gestureListener) {
+    public void setGestureListener(IGestureListener gestureListener) {
         this.viewImpl.setGestureListener(gestureListener);
     }
 
